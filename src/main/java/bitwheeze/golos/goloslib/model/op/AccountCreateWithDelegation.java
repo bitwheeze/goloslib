@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import bitwheeze.golos.goloslib.model.Asset;
+import bitwheeze.golos.goloslib.model.Authority;
 import lombok.Data;
 import lombok.ToString;
 

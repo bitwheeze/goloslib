@@ -1,11 +1,6 @@
 package bitwheeze.golos.goloslib;
 
 import java.math.BigDecimal;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.Signature;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import bitwheeze.golos.goloslib.model.Account;
 import bitwheeze.golos.goloslib.model.Asset;
-import bitwheeze.golos.goloslib.model.Transaction;
 import bitwheeze.golos.goloslib.model.op.Transfer;
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,31 +63,19 @@ public class GoloslibApplication implements CommandLineRunner {
         //var response = mapper.writeValueAsString(tr);
         log.info("response = {}", response);
         */
+
         var builder = factory.getBuidler()
                 .add(new Transfer("bitwheeze", "bitwheeze", new Asset(new BigDecimal("1.000"), "GOLOS"), "test java lib"));
-        
-        log.info("1");
-        Transaction signedTr = builder.sign(new String [] {test_key});
-        log.info("1");
-        signedTr = builder.sign(new String [] {test_key});
-        log.info("1");
-        signedTr = builder.sign(new String [] {test_key});
-        log.info("1");
-        signedTr = builder.sign(new String [] {test_key});
-     
-        log.info("signed tr {}", signedTr);
-        
+                
+        var signedTr = builder.sign(new String [] {test_key});
         var response = api.broadcastTransaction(signedTr);   
-        log.info("response = {}", response);
         
-        var signer = Signature.getInstance("secp256k1");
-        byte [] pkcs8EncodedBytes = Base64.getDecoder().decode(test_key.substring(1));
-        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(pkcs8EncodedBytes);
-        KeyFactory kf = KeyFactory.getInstance("RSA");
-        PrivateKey privkey = kf.generatePrivate(keySpec);
-        signer.initSign(privkey);
-        signer.update("test".getBytes());
-        log.info("signature "+ new String(signer.sign()));
+        var accounts = api.getAccounts(new String [] {"bitwheeze", "blockchained"});
+        log.info("accounts");
+        for(Account a : accounts.getResult()) {
+            log.info("  account {}", a);
+        }
+
     }
 
 }

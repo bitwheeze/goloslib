@@ -24,5 +24,6 @@ public class ApiResponse<T> {
     public static class EmptyResponse extends ApiResponse<Empty> {}
     public static class DynamicGlobalPropertiesResponse extends ApiResponse<DynamicGlobalProperties> {}
     public static class BlockResponse extends ApiResponse<Block> {}
+    public static class AccountsResponse extends ApiResponse<Account[]> {}
     public static class OpsInBlockResponse extends ApiResponse<List<OperationHistoryRecord>> {}
 }

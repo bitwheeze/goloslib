@@ -1,5 +1,7 @@
-package bitwheeze.golos.goloslib.model.op;
+package bitwheeze.golos.goloslib.model;
 
+import bitwheeze.golos.goloslib.model.op.AccountAuthority;
+import bitwheeze.golos.goloslib.model.op.KeyAuthority;
 import lombok.Data;
 import lombok.ToString;
 

@@ -43,6 +43,12 @@ public class GolosApi {
         return send(method, ApiResponse.BlockResponse.class);
     }
     
+    public ApiResponse.AccountsResponse getAccounts(String [] accounts) {
+        var method = methods.getApiMethod("database_api", "get_accounts");
+        method.getMethodParams()[0] = accounts;
+        return send(method, ApiResponse.AccountsResponse.class);
+    }
+
     public ApiResponse.OpsInBlockResponse getOpsInBlock(long blockNum, boolean onlyVirtual) {
         var method = methods.getApiMethod("operation_history", "get_ops_in_block");
         method.getMethodParams()[0] = blockNum;

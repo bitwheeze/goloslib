@@ -41,7 +41,7 @@ public class Methods {
             Value module = context.getBindings("js").getMember("module");
             Value methodsDef = module.getMember("exports");
 
-            log.info("read modules {}", methodsDef);
+            log.debug("read modules {}", methodsDef);
             for (int i = 0; i < methodsDef.getArraySize(); i++) {
                 Value methodDef = methodsDef.getArrayElement(i);
 
@@ -53,7 +53,7 @@ public class Methods {
                 if(null != parametersDef) {
                     paraCount = (int) parametersDef.getArraySize();
                 } else {
-                    log.warn("api method {}.{} has no params ({})", api, method, methodDef);
+                    log.debug("api method {}.{} has no params ({})", api, method, methodDef);
                 }
                 methods.put(api + "." + method, paraCount);
             }
