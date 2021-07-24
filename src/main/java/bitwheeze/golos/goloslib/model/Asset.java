@@ -17,7 +17,7 @@ public class Asset {
 	public static Asset EMPTY = new Asset();
 	
 	private BigDecimal value = BigDecimal.ZERO;
-    private String assetName = "NOTSET";
+    private String asset = "NOTSET";
 	
 	public static Asset fromString(String string) {
 		if(null == string || string.isBlank()) {
@@ -30,14 +30,14 @@ public class Asset {
 		}
 		
 		Asset ret = new Asset();
-		ret.setAssetName(pair[1]);
+		ret.setAsset(pair[1]);
 		ret.setValue(new BigDecimal(pair[0]));
 		return ret;
 	}
 	
 	@JsonValue
 	public String toString() {
-		return value.toString() + " " + assetName;
+		return value.toString() + " " + asset;
 	}
 	
 	public static void main(String[] args) {

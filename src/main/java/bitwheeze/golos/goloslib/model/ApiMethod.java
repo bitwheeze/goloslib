@@ -1,5 +1,7 @@
 package bitwheeze.golos.goloslib.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -19,6 +21,7 @@ public class ApiMethod {
         //ApiRequest req = new ApiRequest("database_api", "get_dynamic_global_properties")
     }
     
+    @JsonIgnore
     public Object[] getMethodParams() {
         return (Object[]) params[2];
     }

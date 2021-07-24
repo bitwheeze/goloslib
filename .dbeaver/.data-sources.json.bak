@@ -1,0 +1,30 @@
+{
+	"folders": {},
+	"connections": {
+		"h2_embedded-17ac616a882-58627b41f762f658": {
+			"provider": "generic",
+			"driver": "h2_embedded",
+			"name": "pisolog.log.mv.db",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"database": "C:\\Temp\\pisolog.log.mv.db",
+				"url": "jdbc:h2:C:\\Temp\\pisolog.log.mv.db",
+				"type": "dev",
+				"auth-model": "native",
+				"handlers": {}
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"auto-close-transactions": false
+		}
+	}
+}

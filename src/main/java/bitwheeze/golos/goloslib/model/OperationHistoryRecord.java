@@ -2,7 +2,7 @@ package bitwheeze.golos.goloslib.model;
 
 import java.time.LocalDateTime;
 
-import bitwheeze.golos.goloslib.model.op.Operation;
+import bitwheeze.golos.goloslib.model.op.OperationPack;
 import lombok.Data;
 
 @Data
@@ -13,5 +13,5 @@ public class OperationHistoryRecord {
     private int opInTrx;
     private int virtualOp;
     private LocalDateTime timestamp;
-    private Operation op;
+    private OperationPack op;
 }

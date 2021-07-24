@@ -13,7 +13,6 @@ import org.springframework.http.codec.LoggingCodecSupport;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -25,7 +24,6 @@ import reactor.netty.http.client.HttpClient;
 
 @Slf4j
 @Configuration
-@EnableScheduling
 public class GolosApiConfiguration {
 
     @Value("${golos.api:https://api-golos.blckchnd.com}")
@@ -45,6 +43,7 @@ public class GolosApiConfiguration {
             .filter(LoggingCodecSupport.class::isInstance)
             .forEach(writer -> ((LoggingCodecSupport)writer).setEnableLoggingRequestDetails(true));
         
+        log.info("using api url {}", url);
         return WebClient.builder()
                 .baseUrl(url)
                 //.defaultCookie("cookieKey", "cookieValue")

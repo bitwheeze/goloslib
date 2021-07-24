@@ -1,29 +1,63 @@
 package bitwheeze.golos.goloslib.model;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
-@Data
 @ToString
 public class ApiResponse<T> {
     public static class Empty {}
     
+    @Setter
     String jsonrpc;
+    @Setter
     T result;
     @JsonDeserialize(using = ToStringDeserializer.class)
+    @Setter
+    @Getter
     String error;
     
     public boolean isError() {
         return (error != null);
     }
+
+    public Optional<T> getResult() {
+        return Optional.ofNullable(result);
+    }
+    
+    public T orElseThrow() {
+        if (result == null) {
+            throw new RuntimeException(error);
+        }
+        return result;
+    }
+    
+    public <E> Optional<E> map(Function<? super T, ? extends E> mapper) {
+        Objects.requireNonNull(mapper);
+        if (result == null) {
+            return Optional.empty();
+        } else {
+            return Optional.ofNullable(mapper.apply(result));
+        }
+    }
+    
+    public void ifPresent(Consumer<? super T> action) {
+        if (result != null) {
+            action.accept(result);
+        }
+    }    
     
     public static class EmptyResponse extends ApiResponse<Empty> {}
     public static class DynamicGlobalPropertiesResponse extends ApiResponse<DynamicGlobalProperties> {}
     public static class BlockResponse extends ApiResponse<Block> {}
-    public static class AccountsResponse extends ApiResponse<Account[]> {}
+    public static class AccountsResponse extends ApiResponse<List<Account>> {}
     public static class OpsInBlockResponse extends ApiResponse<List<OperationHistoryRecord>> {}
 }

@@ -1,9 +1,12 @@
 package bitwheeze.golos.goloslib;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import bitwheeze.golos.goloslib.model.Account;
 import bitwheeze.golos.goloslib.model.ApiMethod;
 import bitwheeze.golos.goloslib.model.ApiResponse;
 import bitwheeze.golos.goloslib.model.Transaction;
@@ -43,7 +46,17 @@ public class GolosApi {
         return send(method, ApiResponse.BlockResponse.class);
     }
     
+    public Account getAccount(String account) {
+        return getAccounts(new String [] {account}).orElseThrow().stream().findAny().orElse(null);
+    }
+    
     public ApiResponse.AccountsResponse getAccounts(String [] accounts) {
+        var method = methods.getApiMethod("database_api", "get_accounts");
+        method.getMethodParams()[0] = accounts;
+        return send(method, ApiResponse.AccountsResponse.class);
+    }
+
+    public ApiResponse.AccountsResponse getAccounts(List<String> accounts) {
         var method = methods.getApiMethod("database_api", "get_accounts");
         method.getMethodParams()[0] = accounts;
         return send(method, ApiResponse.AccountsResponse.class);
