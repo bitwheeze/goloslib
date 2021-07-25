@@ -11,6 +11,7 @@ class GoloslibApplicationTests {
 
     @Test
     void contextLoads() {
+        
     }
 
     @SpringBootApplication

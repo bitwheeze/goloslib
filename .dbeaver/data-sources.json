@@ -49,10 +49,10 @@
 			"save-password": true,
 			"read-only": false,
 			"configuration": {
-				"host": "localhost",
+				"host": "192.168.0.24",
 				"port": "5432",
 				"database": "pisolog",
-				"url": "jdbc:postgresql://localhost:5432/pisolog",
+				"url": "jdbc:postgresql://192.168.0.24:5432/pisolog",
 				"home": "postgresql_client",
 				"type": "dev",
 				"provider-properties": {
