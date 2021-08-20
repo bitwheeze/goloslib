@@ -1,6 +1,7 @@
 package bitwheeze.golos.goloslib.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 import lombok.ToString;
@@ -59,7 +60,7 @@ public class Account {
     private long curationRewards;
     private long delegationRewards;
     private long postingRewards;
-    private long [] proxiedVsfVotes;
+    private List<Long> proxiedVsfVotes;
     private long witnessesVotedFor;
     private long averageBandwidth;
     private long averageMarketBandwidth;
@@ -73,7 +74,7 @@ public class Account {
     private LocalDateTime lastComment;
     private LocalDateTime lastPost;
     private int postBandwidth;
-    private String [] witnessVotes;
+    private List<String> witnessVotes;
     private long reputation;
     private long postsCapacity;
     private long commentsCapacity;

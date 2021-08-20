@@ -60,4 +60,5 @@ public class ApiResponse<T> {
     public static class BlockResponse extends ApiResponse<Block> {}
     public static class AccountsResponse extends ApiResponse<List<Account>> {}
     public static class OpsInBlockResponse extends ApiResponse<List<OperationHistoryRecord>> {}
+    public static class AccountNamesResponse extends ApiResponse<List<String>> {}
 }

@@ -74,4 +74,11 @@ public class GolosApi {
         method.getMethodParams()[0] = tr;
         return send(method, ApiResponse.EmptyResponse.class);
     }
+    
+    public ApiResponse.AccountNamesResponse lookupAccounts(String lowerBoundName, int limit) {
+        var method = methods.getApiMethod("database_api", "lookup_accounts");
+        method.getMethodParams()[0] = lowerBoundName;
+        method.getMethodParams()[1] = limit;
+        return send(method, ApiResponse.AccountNamesResponse.class);
+    }
 }
