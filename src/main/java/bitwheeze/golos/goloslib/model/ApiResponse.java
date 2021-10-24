@@ -1,16 +1,15 @@
 package bitwheeze.golos.goloslib.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @ToString
 public class ApiResponse<T> {
@@ -61,4 +60,5 @@ public class ApiResponse<T> {
     public static class AccountsResponse extends ApiResponse<List<Account>> {}
     public static class OpsInBlockResponse extends ApiResponse<List<OperationHistoryRecord>> {}
     public static class AccountNamesResponse extends ApiResponse<List<String>> {}
+    public static class StringResponse extends ApiResponse<String> {}
 }

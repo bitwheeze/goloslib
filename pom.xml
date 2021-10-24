@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>bitwheeze.golos</groupId>
 	<artifactId>goloslib</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>goloslib</name>
 	<description>Golos Library</description>
 	<properties>
@@ -48,7 +48,12 @@
           <groupId>org.graalvm.js</groupId>
           <artifactId>js-scriptengine</artifactId>
           <version>21.1.0</version>
-        </dependency>		     
+        </dependency>
+		<dependency>
+			<groupId>one.block</groupId>
+			<artifactId>eosiojava</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 
   <distributionManagement>

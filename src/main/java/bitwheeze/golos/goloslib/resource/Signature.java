@@ -1,12 +1,9 @@
 package bitwheeze.golos.goloslib.resource;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import javax.annotation.PostConstruct;
-
+import bitwheeze.golos.goloslib.model.Transaction;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.PolyglotException;
@@ -14,11 +11,11 @@ import org.graalvm.polyglot.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import bitwheeze.golos.goloslib.model.Transaction;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import javax.annotation.PostConstruct;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 @Service
 @Slf4j
@@ -30,7 +27,7 @@ public class Signature {
     private Context context;
     private Value stringify;
     private Value signTransaction;
-    
+    private Value getPrefix;
     @PostConstruct
     public void init() {
         context = Context.newBuilder("js")
@@ -45,6 +42,7 @@ public class Signature {
             context.eval("js", readFromInputStream(golosjs));
             context.eval("js", "function stringify(o) { return JSON.stringify(o); } ");
             signTransaction = context.getBindings("js").getMember("golos").getMember("auth").getMember("signTransaction");
+            getPrefix = context.getBindings("js").getMember("golos").getMember("broadcast").getMember("getPrefix");
             stringify = context.getBindings("js").getMember("stringify");
 
         } catch (PolyglotException e) {
@@ -64,6 +62,11 @@ public class Signature {
         var signedTransaction = signTransaction.execute(trObj, keysObj);
         signedTransaction = stringify.execute(signedTransaction);
         return mapper.readValue(signedTransaction.asString(), Transaction.class);
+    }
+
+    @SneakyThrows
+    public Long getPrefix(String blockNr, String previos) {
+        return Long.valueOf(getPrefix.execute(blockNr, previos).asString());
     }
     
     private String readFromInputStream(InputStream inputStream) throws IOException {
