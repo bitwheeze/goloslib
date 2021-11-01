@@ -30,8 +30,8 @@ public class TransactionBuilder {
 
     @Value("${golos.tr.expiration_delay:300}")
     private long expiration_delay;
-    private long refBlockNum = 49186;
-    private long refBlockPrefix = 2378203595l;
+    private long refBlockNum = 0;
+    private long refBlockPrefix = 0;
     private LocalDateTime expiration;
     
     private final List<Operation> operations = new ArrayList<>();
@@ -94,12 +94,17 @@ public class TransactionBuilder {
     }
 
     public Transaction build() {
+
         if(operations.isEmpty()) {
             throw new RuntimeException("No operations added to transaction!");
         }
         Transaction tr = new Transaction();
 
         packOperations(tr);
+
+        if(refBlockPrefix == 0) {
+            this.setReferenceBlock();
+        }
 
         tr.setRefBlockNum(this.refBlockNum);
         tr.setRefBlockPrefix(this.refBlockPrefix);

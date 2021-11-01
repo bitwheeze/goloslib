@@ -2,9 +2,7 @@ package bitwheeze.golos.goloslib;
 
 import bitwheeze.golos.goloslib.model.Asset;
 import bitwheeze.golos.goloslib.model.op.Transfer;
-import bitwheeze.golos.goloslib.resource.Signature;
 import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.util.encoders.Hex;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.math.BigDecimal;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -30,9 +26,6 @@ class SecurityUtilsTest {
 
     @Autowired
     TransactionFactory transactionBuilderFactory;
-
-    @Autowired
-    private Signature sign;
 
     @Autowired
     private GolosApi api;
@@ -68,22 +61,6 @@ class SecurityUtilsTest {
                 .buildAndSign(new String [] {PRIVKEY});
 
         log.info("signatures {}", tr.getSignatures());
-    }
-
-    @Test
-    public void prepareTransaction() {
-        var block = 52548040;
-        var prev = api.getBlock(block+1).orElseThrow().getPrevious();
-
-        var refBlockPrefix = sign.getPrefix(block+"", prev);
-
-        log.info("block {}", block & 0xffff);
-
-        var bytes = Hex.decode(prev);
-
-        long testValue = ByteBuffer.wrap(bytes, 4 ,4).order(ByteOrder.LITTLE_ENDIAN).getInt();
-
-        log.info("refBlockPrefix = {} {}", refBlockPrefix, testValue);
     }
 
     @SpringBootApplication

@@ -11,6 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -27,7 +28,15 @@ public class GolosApi {
                 .bodyToMono(requestClass)
                 .block();
     }
-    
+
+    private <T> Mono<T> sendMono(ApiMethod method, Class<T> requestClass) {
+        return client
+                .post()
+                .body(Mono.just(method), ApiMethod.class)
+                .retrieve()
+                .bodyToMono(requestClass);
+    }
+
     public ApiResponse.DynamicGlobalPropertiesResponse getDynamicGlobalProperties() {
         var method = ApiMethod.getDynamicGlobalProperties;
         return send(method, ApiResponse.DynamicGlobalPropertiesResponse.class);
@@ -39,14 +48,20 @@ public class GolosApi {
         return send(method, ApiResponse.BlockResponse.class);
     }
     
-    public Account getAccount(String account) {
-        return getAccounts(new String [] {account}).orElseThrow().stream().findAny().orElse(null);
+    public Optional<Account> getAccount(String account) {
+        return getAccounts(new String [] {account}).orElseThrow().stream().findAny();
     }
     
     public ApiResponse.AccountsResponse getAccounts(String [] accounts) {
         var method = ApiMethod.getAccounts;
         method.getMethodParams()[0] = accounts;
         return send(method, ApiResponse.AccountsResponse.class);
+    }
+
+    public Mono<ApiResponse.AccountsResponse> getAccountsMono(String [] accounts) {
+        var method = ApiMethod.getAccounts;
+        method.getMethodParams()[0] = accounts;
+        return sendMono(method, ApiResponse.AccountsResponse.class);
     }
 
     public ApiResponse.AccountsResponse getAccounts(List<String> accounts) {

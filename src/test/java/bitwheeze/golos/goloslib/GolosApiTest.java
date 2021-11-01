@@ -1,6 +1,5 @@
 package bitwheeze.golos.goloslib;
 
-import bitwheeze.golos.goloslib.resource.Signature;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,9 +21,6 @@ class GolosApiTest {
     TransactionFactory transactionFactory;
 
     @Autowired
-    private Signature sign;
-
-    @Autowired
     private GolosApi api;
 
     @Test
@@ -44,7 +40,7 @@ class GolosApiTest {
         final String TEST_ACC = "bitwheeze";
         var acc = api.getAccount(TEST_ACC);
         assertNotNull(acc);
-        assertEquals(TEST_ACC, acc.getName());
+        assertEquals(TEST_ACC, acc.orElseThrow().getName());
     }
 
     @Test
