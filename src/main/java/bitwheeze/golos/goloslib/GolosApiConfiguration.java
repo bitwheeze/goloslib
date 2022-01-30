@@ -1,7 +1,8 @@
 package bitwheeze.golos.goloslib;
 
-import java.util.Collections;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,12 +16,9 @@ import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-
-import lombok.extern.slf4j.Slf4j;
 import reactor.netty.http.client.HttpClient;
+
+import java.util.Collections;
 
 @Slf4j
 @Configuration
@@ -29,7 +27,7 @@ public class GolosApiConfiguration {
     @Value("${golos.api:https://api-golos.blckchnd.com}")
     private String url;
     
-    @Bean
+    @Bean(name = "golos_api")
     public WebClient buildWebClient(ObjectMapper mapper) {
         ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
                 .codecs(clientDefaultCodecsConfigurer -> {
