@@ -60,6 +60,12 @@ public class GolosApi {
         return send(method, ApiResponse.AccountsResponse.class);
     }
 
+    public ApiResponse.AccountsBalancesResponse getAccountsBalances(String [] accounts) {
+        var method = ApiMethod.getAccountsBalances;
+        method.getMethodParams()[0] = accounts;
+        return send(method, ApiResponse.AccountsBalancesResponse.class);
+    }
+
     public Mono<ApiResponse.AccountsResponse> getAccountsMono(String [] accounts) {
         var method = ApiMethod.getAccounts;
         method.getMethodParams()[0] = accounts;

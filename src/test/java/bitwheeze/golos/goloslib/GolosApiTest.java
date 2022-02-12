@@ -1,5 +1,6 @@
 package bitwheeze.golos.goloslib;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 @SpringBootTest
 @ComponentScan("bitwheeze.golos.goloslib")
 class GolosApiTest {
@@ -49,6 +51,15 @@ class GolosApiTest {
         var acc = api.getAccounts(new String[] {TEST_ACC}).orElseThrow().get(0);
         assertNotNull(acc);
         assertEquals(TEST_ACC, acc.getName());
+    }
+
+    @Test
+    void getAccountsBalancesArr() {
+        final String TEST_ACC = "prizm";
+        var acc = api.getAccountsBalances(new String[] {TEST_ACC}).orElseThrow().get(0);
+        assertNotNull(acc);
+        assertNotNull(acc.get("YMPZM"));
+        log.info("prizm balances {}", acc.get("YMPZM"));
     }
 
     @Test

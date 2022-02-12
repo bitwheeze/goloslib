@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -61,4 +62,5 @@ public class ApiResponse<T> {
     public static class OpsInBlockResponse extends ApiResponse<List<OperationHistoryRecord>> {}
     public static class AccountNamesResponse extends ApiResponse<List<String>> {}
     public static class StringResponse extends ApiResponse<String> {}
+    public static class AccountsBalancesResponse extends ApiResponse<List<HashMap<String,UiaBalances>>> {}
 }

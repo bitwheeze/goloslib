@@ -10,6 +10,7 @@ public class ApiMethod {
     public static ApiMethod getDynamicGlobalProperties = new ApiMethod("database_api", "get_dynamic_global_properties", 0);
     public static ApiMethod getBlock = new ApiMethod("database_api", "get_block", 1);
     public static ApiMethod getAccounts = new ApiMethod("database_api", "get_accounts", 1);
+    public static ApiMethod getAccountsBalances = new ApiMethod("database_api", "get_accounts_balances", 1);
     public static ApiMethod getOpsInBlock = new ApiMethod("operation_history", "get_ops_in_block", 2);
     public static ApiMethod broadcastTransaction = new ApiMethod("network_broadcast_api", "broadcast_transaction", 1);
     public static ApiMethod lookupAccounts = new ApiMethod("database_api", "lookup_accounts", 2);
