@@ -59,6 +59,12 @@ public class GolosApiReactive {
         return send(method, ApiResponse.AccountsResponse.class);
     }
 
+    public Mono<ApiResponse.AccountsBalancesResponse> getAccountsBalances(String [] accounts) {
+        var method = ApiMethod.getAccountsBalances;
+        method.getMethodParams()[0] = accounts;
+        return send(method, ApiResponse.AccountsBalancesResponse.class);
+    }
+
     public Mono<ApiResponse.OpsInBlockResponse> getOpsInBlock(long blockNum, boolean onlyVirtual) {
         var method = ApiMethod.getOpsInBlock;
         method.getMethodParams()[0] = blockNum;
