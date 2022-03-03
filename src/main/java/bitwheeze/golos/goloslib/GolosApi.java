@@ -66,6 +66,24 @@ public class GolosApi {
         return send(method, ApiResponse.AccountsBalancesResponse.class);
     }
 
+    public ApiResponse.AssetDefinitionResponse getAssets(String creator, String [] symbols, String from, int limit, String sort) {
+        var method = ApiMethod.getAssets;
+        method.getMethodParams()[0] = Optional.ofNullable(creator).orElse("");
+        method.getMethodParams()[1] = Optional.ofNullable(symbols).orElse(new String [0]);
+        method.getMethodParams()[2] = Optional.ofNullable(from).orElse("");
+        method.getMethodParams()[3] = Optional.ofNullable(String.valueOf(limit)).orElse("20");
+        method.getMethodParams()[4] = Optional.ofNullable(sort).orElse("by_symbol_name");
+        return send(method, ApiResponse.AssetDefinitionResponse.class);
+    }
+
+    public Optional<AssetDefinition> getAssetDefinition(String asset) {
+        var assets = getAssets("", new String [] {asset}, "", 1, null).orElseThrow();
+        if(assets.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(assets.get(0));
+    }
+
     public Mono<ApiResponse.AccountsResponse> getAccountsMono(String [] accounts) {
         var method = ApiMethod.getAccounts;
         method.getMethodParams()[0] = accounts;

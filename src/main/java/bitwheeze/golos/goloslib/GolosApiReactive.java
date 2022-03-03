@@ -90,4 +90,14 @@ public class GolosApiReactive {
         method.getMethodParams()[0] = tr;
         return send(method, ApiResponse.StringResponse.class);
     }
+
+    public Mono<ApiResponse.AssetDefinitionResponse> getAssets(String creator, String [] symbols, String from, int limit, String sort) {
+        var method = ApiMethod.getAssets;
+        method.getMethodParams()[0] = Optional.ofNullable(creator).orElse("");
+        method.getMethodParams()[1] = Optional.ofNullable(symbols).orElse(new String [0]);
+        method.getMethodParams()[2] = Optional.ofNullable(from).orElse("");
+        method.getMethodParams()[3] = Optional.ofNullable(String.valueOf(limit)).orElse("20");
+        method.getMethodParams()[4] = Optional.ofNullable(sort).orElse("by_symbol_name");
+        return send(method, ApiResponse.AssetDefinitionResponse.class);
+    }
 }

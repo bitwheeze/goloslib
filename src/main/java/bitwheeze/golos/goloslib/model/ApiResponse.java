@@ -1,5 +1,6 @@
 package bitwheeze.golos.goloslib.model;
 
+import bitwheeze.golos.goloslib.AssetDefinition;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.Setter;
@@ -63,4 +64,5 @@ public class ApiResponse<T> {
     public static class AccountNamesResponse extends ApiResponse<List<String>> {}
     public static class StringResponse extends ApiResponse<String> {}
     public static class AccountsBalancesResponse extends ApiResponse<List<HashMap<String,UiaBalances>>> {}
+    public static class AssetDefinitionResponse extends ApiResponse<List<AssetDefinition>> {}
 }

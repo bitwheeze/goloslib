@@ -78,6 +78,14 @@ class GolosApiTest {
     }
 
     @Test
+    void getAssets() {
+        var assets = api.getAssets("", new String [] {"PRIZM"}, "", 2, null).orElseThrow();
+        assertEquals(1, assets.size());
+        assertEquals("6000000000.00 PRIZM", assets.get(0).getMaxSupply());
+        assertEquals(2, assets.get(0).getPrecision());
+    }
+
+    @Test
     void broadcastTransaction() {
     }
 
