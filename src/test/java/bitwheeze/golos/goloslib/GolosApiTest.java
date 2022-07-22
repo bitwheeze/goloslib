@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -103,6 +104,27 @@ class GolosApiTest {
                 .setReferenceBlock()
                 .build();
         var hexed = api.getTransactionHex(tr).orElseThrow();
+    }
+
+    @Test
+    void getContent() {
+        var content = api.getContent("bitwheeze", "volya", 0, 0).orElseThrow();
+        log.info("content {}", content);
+        assertNotNull(content);
+        assertTrue(content.getId() > 0);
+        assertEquals("bitwheeze", content.getAuthor());
+        assertEquals("volya", content.getPermlink());
+
+    }
+
+    @Test
+    void getContentNotExisting() {
+        var content = api.getContent("bitwheeze", "volyag63g3746g736g4r374", 0, 0).orElseThrow();
+        log.info("content {}", content);
+        assertNotNull(content);
+        assertEquals(0, content.getId());
+        assertEquals("", content.getAuthor());
+        assertEquals("", content.getPermlink());
     }
 
     @SpringBootApplication

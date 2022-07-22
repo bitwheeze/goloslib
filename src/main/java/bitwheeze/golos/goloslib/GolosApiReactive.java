@@ -96,8 +96,18 @@ public class GolosApiReactive {
         method.getMethodParams()[0] = Optional.ofNullable(creator).orElse("");
         method.getMethodParams()[1] = Optional.ofNullable(symbols).orElse(new String [0]);
         method.getMethodParams()[2] = Optional.ofNullable(from).orElse("");
-        method.getMethodParams()[3] = Optional.ofNullable(String.valueOf(limit)).orElse("20");
+        method.getMethodParams()[3] = Optional.of(String.valueOf(limit)).orElse("20");
         method.getMethodParams()[4] = Optional.ofNullable(sort).orElse("by_symbol_name");
         return send(method, ApiResponse.AssetDefinitionResponse.class);
+    }
+
+    public Mono<ApiResponse.ContentResponse> getContent(String account, String permlink, int voteLimit, int voteOffset) {
+        var method = ApiMethod.getContent;
+        method.getMethodParams()[0] = account;
+        method.getMethodParams()[1] = permlink;
+        method.getMethodParams()[2] = voteLimit;
+        method.getMethodParams()[3] = voteOffset;
+
+        return send(method, ApiResponse.ContentResponse.class);
     }
 }

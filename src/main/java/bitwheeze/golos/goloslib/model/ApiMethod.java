@@ -16,6 +16,7 @@ public class ApiMethod {
     public static ApiMethod lookupAccounts = new ApiMethod("database_api", "lookup_accounts", 2);
     public static ApiMethod getTransactionHex = new ApiMethod("database_api", "get_transaction_hex", 1);
     public static ApiMethod getAssets = new ApiMethod("database_api", "get_assets", 5);
+    public static ApiMethod getContent = new ApiMethod("social_network", "get_content", 4);
 
     private long id = 0;
     private final String jsonrpc = "2.0";
