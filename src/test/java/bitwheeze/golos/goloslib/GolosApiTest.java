@@ -1,5 +1,6 @@
 package bitwheeze.golos.goloslib;
 
+import bitwheeze.golos.goloslib.utilities.GolosTools;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -125,6 +127,31 @@ class GolosApiTest {
         assertEquals(0, content.getId());
         assertEquals("", content.getAuthor());
         assertEquals("", content.getPermlink());
+    }
+
+    @Test
+    void getChainProperties() {
+        var props = api.getChainProperties().orElseThrow();
+        log.info("props = {}", props);
+        assertTrue(props.getMaximumBlockSize() > 0);
+    }
+
+    @Test
+    void getConfig() {
+        var config = api.getConfig().orElseThrow();
+        log.info("config = {}", config);
+        assertTrue(config.getSteemitVoteRegenerationSeconds() > 0);
+    }
+
+    @Test void getCurrentVotePower() {
+        var config = api.getConfig().orElseThrow();
+        var bitwheeze = api.getAccount("bitwheeze");
+        assertTrue(bitwheeze.isPresent());
+        int current_vote_power = GolosTools.calcCurrentVotePower(bitwheeze.get(), config);
+
+        long secondsFullRegeneration = (long)GolosTools.calcSecondsTillFullRegenerated(bitwheeze.get(), config);
+
+        log.info("current_vote_power = {}, remaining seconds = {}", current_vote_power, LocalDateTime.now().plusSeconds(secondsFullRegeneration));
     }
 
     @SpringBootApplication

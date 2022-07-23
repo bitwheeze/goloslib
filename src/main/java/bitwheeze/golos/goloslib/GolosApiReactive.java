@@ -110,4 +110,13 @@ public class GolosApiReactive {
 
         return send(method, ApiResponse.ContentResponse.class);
     }
+
+    public Mono<ApiResponse.ChainPropertiesResponse> getChainProperties() {
+        return send(ApiMethod.getChainProperties, ApiResponse.ChainPropertiesResponse.class);
+    }
+
+    public Mono<ApiResponse.ConfigResponse> getConfig() {
+        return send(ApiMethod.getConfig, ApiResponse.ConfigResponse.class);
+    }
+
 }

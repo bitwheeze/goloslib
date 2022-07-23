@@ -3,6 +3,8 @@ package bitwheeze.golos.goloslib.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import bitwheeze.golos.goloslib.model.Asset;
+import bitwheeze.golos.goloslib.model.Authority;
 import lombok.Data;
 import lombok.ToString;
 

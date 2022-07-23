@@ -131,4 +131,13 @@ public class GolosApi {
 
         return send(method, ApiResponse.ContentResponse.class);
     }
+
+    public ApiResponse.ChainPropertiesResponse getChainProperties() {
+        return send(ApiMethod.getChainProperties, ApiResponse.ChainPropertiesResponse.class);
+    }
+
+    public ApiResponse.ConfigResponse getConfig() {
+        return send(ApiMethod.getConfig, ApiResponse.ConfigResponse.class);
+    }
+
 }
