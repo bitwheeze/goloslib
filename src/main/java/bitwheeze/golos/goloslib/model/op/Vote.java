@@ -10,5 +10,5 @@ public class Vote extends Operation {
     String voter;
     String author;
     String permlink;
-    short weight;
+    int weight;
 }

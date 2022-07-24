@@ -117,13 +117,20 @@ public class TransactionBuilder {
 
     public TransactionBuilder addTransfer(String from, String to, String amount, String asset, String memo) {
         var transfer = new Transfer(from, to, new Asset(new BigDecimal(amount), asset), memo);
-        this.add(transfer);
-        return this;
+        return this.add(transfer);
     }
 
     public TransactionBuilder addDonate(String from, String to, String amount, String asset, DonateMemo memo) {
         var donate = new Donate(from, to, new Asset(new BigDecimal(amount), asset), memo, new String [0]);
-        this.add(donate);
-        return this;
+        return this.add(donate);
+    }
+
+    public TransactionBuilder addVote(String voter, String author, String permlink, int weight) {
+        var vote = new Vote();
+        vote.setVoter(voter);
+        vote.setAuthor(author);
+        vote.setPermlink(permlink);
+        vote.setWeight(weight);
+        return this.add(vote);
     }
 }
