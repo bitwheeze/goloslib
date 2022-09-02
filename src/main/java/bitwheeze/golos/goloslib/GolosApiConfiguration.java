@@ -26,13 +26,16 @@ public class GolosApiConfiguration {
 
     @Value("${golos.api:https://api-golos.blckchnd.com}")
     private String url;
-    
+
+    @Value("${golos.media-type:application/json}")
+    private String mediaType;
+
     @Bean(name = "golos_api")
     public WebClient buildWebClient(ObjectMapper mapper) {
         ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
                 .codecs(clientDefaultCodecsConfigurer -> {
                     clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(mapper, MediaType.APPLICATION_JSON));
-                    clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(mapper, MediaType.APPLICATION_JSON));
+                    clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(mapper, MediaType.valueOf(mediaType)));
                 })
                 .build();
                 
