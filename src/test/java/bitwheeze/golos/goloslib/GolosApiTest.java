@@ -49,6 +49,15 @@ class GolosApiTest {
     }
 
     @Test
+    void getAccountRandom() {
+        final String TEST_ACC = "random";
+        var acc = api.getAccount(TEST_ACC);
+        log.info("random account {}", acc);
+        assertNotNull(acc);
+        assertEquals(TEST_ACC, acc.orElseThrow().getName());
+    }
+
+    @Test
     void getAccountsStringArr() {
         final String TEST_ACC = "bitwheeze";
         var acc = api.getAccounts(new String[] {TEST_ACC}).orElseThrow().get(0);

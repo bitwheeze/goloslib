@@ -11,7 +11,6 @@ import lombok.ToString;
 @Data
 @ToString
 public class Account {
-
     private long id;
     private String name;
     private Authority owner;
@@ -88,5 +87,14 @@ public class Account {
     private LocalDateTime lastActiveOperation;
     private LocalDateTime lastClaim;
     private LocalDateTime claimExpiration;
+    private int provedHf;
+    private boolean frozen;
+    private AccountFreeze freeze;
+    private boolean doNotBother;
+    private Services services;
+    private Asset marketBalance;
+    private Asset marketSbdBalance;
+    private Asset emissionDelegatedVestingShares;
+    private Asset emissionReceivedVestingShares;
 }
 
