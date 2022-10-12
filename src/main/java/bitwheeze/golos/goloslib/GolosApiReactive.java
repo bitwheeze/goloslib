@@ -37,6 +37,7 @@ public class GolosApiReactive {
 
     public Mono<ApiResponse.BlockResponse> getBlock(long blockNum) {
         var method = ApiMethod.getBlock;
+        method.setId(String.valueOf(blockNum));
         method.getMethodParams()[0] = blockNum;
         return send(method, ApiResponse.BlockResponse.class);
     }

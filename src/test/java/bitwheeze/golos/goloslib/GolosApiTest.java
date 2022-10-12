@@ -36,8 +36,10 @@ class GolosApiTest {
     void getBlock() {
         final long TEST_BLOCK_NUM = 52518042;
         final String TEST_PREV = "03215c996c7c4ad648b94169aeb639e28db1b4bb";
-        var block = api.getBlock(TEST_BLOCK_NUM).orElseThrow();
-        assertEquals(TEST_PREV, block.getPrevious());
+        var block = api.getBlock(TEST_BLOCK_NUM);
+        log.info("got response {}", block);
+        assertEquals(TEST_BLOCK_NUM+"", block.getId());
+        assertEquals(TEST_PREV, block.orElseThrow().getPrevious());
     }
 
     @Test

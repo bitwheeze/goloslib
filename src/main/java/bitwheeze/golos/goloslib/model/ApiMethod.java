@@ -20,7 +20,7 @@ public class ApiMethod {
     public static ApiMethod getChainProperties = new ApiMethod("database_api", "get_chain_properties", 0);
     public static ApiMethod getConfig = new ApiMethod("database_api", "get_config", 0);
 
-    private long id = 0;
+    private String id = "0";
     private final String jsonrpc = "2.0";
     private final String method = "call"; //: "call" //TODO: Types?
     private final Object[] params = new Object[3];

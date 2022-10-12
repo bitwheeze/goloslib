@@ -25,6 +25,10 @@ public class ApiResponse<T> {
     @Setter
     @Getter
     String error;
+
+    @Setter
+    @Getter
+    String id;
     
     public boolean isError() {
         return (error != null);
