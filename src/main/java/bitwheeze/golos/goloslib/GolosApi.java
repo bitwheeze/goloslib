@@ -40,12 +40,12 @@ public class GolosApi {
     }
 
     public ApiResponse.DynamicGlobalPropertiesResponse getDynamicGlobalProperties() {
-        var method = ApiMethod.getDynamicGlobalProperties;
+        var method = ApiMethod.getDynamicGlobalProperties();
         return send(method, ApiResponse.DynamicGlobalPropertiesResponse.class);
     }
 
     public ApiResponse.BlockResponse getBlock(long blockNum) {
-        var method = ApiMethod.getBlock;
+        var method = ApiMethod.getBlock();
         method.setId(String.valueOf(blockNum));
         method.getMethodParams()[0] = blockNum;
         return send(method, ApiResponse.BlockResponse.class);
@@ -56,19 +56,19 @@ public class GolosApi {
     }
     
     public ApiResponse.AccountsResponse getAccounts(String [] accounts) {
-        var method = ApiMethod.getAccounts;
+        var method = ApiMethod.getAccounts();
         method.getMethodParams()[0] = accounts;
         return send(method, ApiResponse.AccountsResponse.class);
     }
 
     public ApiResponse.AccountsBalancesResponse getAccountsBalances(String [] accounts) {
-        var method = ApiMethod.getAccountsBalances;
+        var method = ApiMethod.getAccountsBalances();
         method.getMethodParams()[0] = accounts;
         return send(method, ApiResponse.AccountsBalancesResponse.class);
     }
 
     public ApiResponse.AssetDefinitionResponse getAssets(String creator, String [] symbols, String from, int limit, String sort) {
-        var method = ApiMethod.getAssets;
+        var method = ApiMethod.getAssets();
         method.getMethodParams()[0] = Optional.ofNullable(creator).orElse("");
         method.getMethodParams()[1] = Optional.ofNullable(symbols).orElse(new String [0]);
         method.getMethodParams()[2] = Optional.ofNullable(from).orElse("");
@@ -86,45 +86,45 @@ public class GolosApi {
     }
 
     public Mono<ApiResponse.AccountsResponse> getAccountsMono(String [] accounts) {
-        var method = ApiMethod.getAccounts;
+        var method = ApiMethod.getAccounts();
         method.getMethodParams()[0] = accounts;
         return sendMono(method, ApiResponse.AccountsResponse.class);
     }
 
     public ApiResponse.AccountsResponse getAccounts(List<String> accounts) {
-        var method = ApiMethod.getAccounts;
+        var method = ApiMethod.getAccounts();
         method.getMethodParams()[0] = accounts;
         return send(method, ApiResponse.AccountsResponse.class);
     }
 
     public ApiResponse.OpsInBlockResponse getOpsInBlock(long blockNum, boolean onlyVirtual) {
-        var method = ApiMethod.getOpsInBlock;
+        var method = ApiMethod.getOpsInBlock();
         method.getMethodParams()[0] = blockNum;
         method.getMethodParams()[1] = onlyVirtual;
         return send(method, ApiResponse.OpsInBlockResponse.class);
     }
     
     public ApiResponse.EmptyResponse broadcastTransaction(Transaction tr) {
-        var method = ApiMethod.broadcastTransaction;
+        var method = ApiMethod.broadcastTransaction();
         method.getMethodParams()[0] = tr;
         return send(method, ApiResponse.EmptyResponse.class);
     }
     
     public ApiResponse.AccountNamesResponse lookupAccounts(String lowerBoundName, int limit) {
-        var method = ApiMethod.lookupAccounts;
+        var method = ApiMethod.lookupAccounts();
         method.getMethodParams()[0] = lowerBoundName;
         method.getMethodParams()[1] = limit;
         return send(method, ApiResponse.AccountNamesResponse.class);
     }
 
     public ApiResponse.StringResponse getTransactionHex(Transaction tr) {
-        var method = ApiMethod.getTransactionHex;
+        var method = ApiMethod.getTransactionHex();
         method.getMethodParams()[0] = tr;
         return send(method, ApiResponse.StringResponse.class);
     }
 
     public ApiResponse.ContentResponse getContent(String account, String permlink, int voteLimit, int voteOffset) {
-        var method = ApiMethod.getContent;
+        var method = ApiMethod.getContent();
         method.getMethodParams()[0] = account;
         method.getMethodParams()[1] = permlink;
         method.getMethodParams()[2] = voteLimit;
@@ -134,11 +134,11 @@ public class GolosApi {
     }
 
     public ApiResponse.ChainPropertiesResponse getChainProperties() {
-        return send(ApiMethod.getChainProperties, ApiResponse.ChainPropertiesResponse.class);
+        return send(ApiMethod.getChainProperties(), ApiResponse.ChainPropertiesResponse.class);
     }
 
     public ApiResponse.ConfigResponse getConfig() {
-        return send(ApiMethod.getConfig, ApiResponse.ConfigResponse.class);
+        return send(ApiMethod.getConfig(), ApiResponse.ConfigResponse.class);
     }
 
 }

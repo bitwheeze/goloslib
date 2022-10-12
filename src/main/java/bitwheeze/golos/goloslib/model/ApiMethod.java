@@ -7,18 +7,18 @@ import lombok.Data;
 @Data
 public class ApiMethod {
 
-    public static ApiMethod getDynamicGlobalProperties = new ApiMethod("database_api", "get_dynamic_global_properties", 0);
-    public static ApiMethod getBlock = new ApiMethod("database_api", "get_block", 1);
-    public static ApiMethod getAccounts = new ApiMethod("database_api", "get_accounts", 1);
-    public static ApiMethod getAccountsBalances = new ApiMethod("database_api", "get_accounts_balances", 1);
-    public static ApiMethod getOpsInBlock = new ApiMethod("operation_history", "get_ops_in_block", 2);
-    public static ApiMethod broadcastTransaction = new ApiMethod("network_broadcast_api", "broadcast_transaction", 1);
-    public static ApiMethod lookupAccounts = new ApiMethod("database_api", "lookup_accounts", 2);
-    public static ApiMethod getTransactionHex = new ApiMethod("database_api", "get_transaction_hex", 1);
-    public static ApiMethod getAssets = new ApiMethod("database_api", "get_assets", 5);
-    public static ApiMethod getContent = new ApiMethod("social_network", "get_content", 4);
-    public static ApiMethod getChainProperties = new ApiMethod("database_api", "get_chain_properties", 0);
-    public static ApiMethod getConfig = new ApiMethod("database_api", "get_config", 0);
+    public static ApiMethod getDynamicGlobalProperties() {return new ApiMethod("database_api", "get_dynamic_global_properties", 0);};
+    public static ApiMethod getBlock() {return new ApiMethod("database_api", "get_block", 1);};
+    public static ApiMethod getAccounts() {return new ApiMethod("database_api", "get_accounts", 1);};
+    public static ApiMethod getAccountsBalances() {return new ApiMethod("database_api", "get_accounts_balances", 1);};
+    public static ApiMethod getOpsInBlock() {return new ApiMethod("operation_history", "get_ops_in_block", 2);};
+    public static ApiMethod broadcastTransaction() {return new ApiMethod("network_broadcast_api", "broadcast_transaction", 1);};
+    public static ApiMethod lookupAccounts() {return new ApiMethod("database_api", "lookup_accounts", 2);};
+    public static ApiMethod getTransactionHex() {return new ApiMethod("database_api", "get_transaction_hex", 1);};
+    public static ApiMethod getAssets() {return new ApiMethod("database_api", "get_assets", 5);};
+    public static ApiMethod getContent() {return new ApiMethod("social_network", "get_content", 4);};
+    public static ApiMethod getChainProperties() {return new ApiMethod("database_api", "get_chain_properties", 0);};
+    public static ApiMethod getConfig() {return new ApiMethod("database_api", "get_config", 0);};
 
     private String id = "0";
     private final String jsonrpc = "2.0";
