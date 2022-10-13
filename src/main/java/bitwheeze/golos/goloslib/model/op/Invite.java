@@ -13,7 +13,7 @@ import lombok.ToString;
 @OpName("invite")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Invite {
+public class Invite extends Operation {
     String creator;
     Asset balance;
     String inviteKey;

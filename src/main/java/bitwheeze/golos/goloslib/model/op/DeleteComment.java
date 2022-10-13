@@ -10,7 +10,7 @@ import lombok.ToString;
 @OpName("delete_comment")
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeleteComment {
+public class DeleteComment extends Operation {
     private String author;
     private String permlink;
 }

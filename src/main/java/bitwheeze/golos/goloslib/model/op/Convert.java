@@ -11,7 +11,7 @@ import lombok.ToString;
 @OpName("convert")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Convert {
+public class Convert extends Operation {
     String owner;
     long requestid;
     Asset amount;

@@ -11,7 +11,7 @@ import lombok.ToString;
 @OpName("account_create_with_invite")
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountCreateWithInvite {
+public class AccountCreateWithInvite extends Operation {
     String inviteSecret;
     String creator;
     String newAccountName;

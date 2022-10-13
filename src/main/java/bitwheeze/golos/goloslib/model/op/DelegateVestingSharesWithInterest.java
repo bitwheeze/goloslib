@@ -13,7 +13,7 @@ import lombok.ToString;
 @OpName("delegate_vesting_shares_with_interest")
 @AllArgsConstructor
 @NoArgsConstructor
-public class DelegateVestingSharesWithInterest {
+public class DelegateVestingSharesWithInterest extends Operation {
     String delegator;
     String delegatee;
     Asset vestingShares;

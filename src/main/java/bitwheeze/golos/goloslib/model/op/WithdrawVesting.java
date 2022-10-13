@@ -11,7 +11,7 @@ import lombok.ToString;
 @OpName("withdraw_vesting")
 @AllArgsConstructor
 @NoArgsConstructor
-public class WithdrawVesting {
+public class WithdrawVesting extends Operation {
     String account;
     Asset vestingShares;
 }

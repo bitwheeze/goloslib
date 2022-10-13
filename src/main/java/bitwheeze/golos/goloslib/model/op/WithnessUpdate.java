@@ -13,7 +13,7 @@ import lombok.ToString;
 @OpName("witness_update")
 @AllArgsConstructor
 @NoArgsConstructor
-public class WithnessUpdate {
+public class WithnessUpdate extends Operation {
     String owner;
     String url;
     String blockSigningKey;

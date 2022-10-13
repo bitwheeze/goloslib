@@ -11,7 +11,7 @@ import lombok.ToString;
 @OpName("transfer_to_vesting")
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransferToVesting {
+public class TransferToVesting extends Operation {
     String from;
     String to;
     Asset amount;
