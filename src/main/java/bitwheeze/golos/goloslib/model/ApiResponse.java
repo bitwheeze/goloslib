@@ -73,4 +73,6 @@ public class ApiResponse<T> {
     public static class ChainPropertiesResponse extends ApiResponse<ChainProperties> {}
     public static class ConfigResponse extends ApiResponse<Config> {}
 
+
+    public static class OpenOrdersResponse extends ApiResponse<List<OpenOrder>> {}
 }
