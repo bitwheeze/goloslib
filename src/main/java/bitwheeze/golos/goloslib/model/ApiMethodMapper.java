@@ -2,6 +2,7 @@ package bitwheeze.golos.goloslib.model;
 
 import java.io.IOException;
 
+import bitwheeze.golos.goloslib.model.api.ApiMethod;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;

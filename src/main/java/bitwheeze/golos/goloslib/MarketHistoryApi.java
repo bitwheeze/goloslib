@@ -1,14 +1,12 @@
 package bitwheeze.golos.goloslib;
 
 import bitwheeze.golos.goloslib.model.*;
+import bitwheeze.golos.goloslib.model.api.MarketHistoryMethods;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Component

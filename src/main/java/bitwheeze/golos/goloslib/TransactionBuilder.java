@@ -3,6 +3,7 @@ package bitwheeze.golos.goloslib;
 import bitwheeze.golos.goloslib.model.Asset;
 import bitwheeze.golos.goloslib.model.Transaction;
 import bitwheeze.golos.goloslib.model.op.*;
+import lombok.RequiredArgsConstructor;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,13 +21,12 @@ import java.util.stream.Collectors;
 
 @Component
 @Scope("prototype")
+@RequiredArgsConstructor
 public class TransactionBuilder {
     
-    @Autowired
-    private GolosApi api;
-    
-    @Autowired
-    private SecurityUtils securityUtils;
+
+    private final DatabaseApi api;
+    private final SecurityUtils securityUtils;
 
     @Value("${golos.tr.expiration_delay:300}")
     private long expiration_delay;
@@ -61,7 +61,7 @@ public class TransactionBuilder {
      * @return
      */
     public TransactionBuilder setReferenceBlock() {
-        var refBlockNum = api.getDynamicGlobalProperties().orElseThrow().getHeadBlockNumber() - 3;
+        var refBlockNum = api.getDynamicGlobalProperties().block().orElseThrow().getHeadBlockNumber() - 3;
         setReferenceBlock(refBlockNum);
         return this;
     }
@@ -72,7 +72,7 @@ public class TransactionBuilder {
      */
     public TransactionBuilder setReferenceBlock(long refBlockNum) {
         this.refBlockNum = refBlockNum & 0xffff;
-        var refBlock = api.getBlock(refBlockNum + 1).orElseThrow();
+        var refBlock = api.getBlock(refBlockNum + 1).block().orElseThrow();
         var bytes = Hex.decode(refBlock.getPrevious());
         this.refBlockPrefix = ByteBuffer.wrap(bytes, 4 ,4).order(ByteOrder.LITTLE_ENDIAN).getInt();
         return this;
@@ -80,7 +80,7 @@ public class TransactionBuilder {
 
     public Transaction buildAndSign(String [] keys) {
         var tr = build();
-        String serialized = api.getTransactionHex(tr).orElseThrow();
+        String serialized = api.getTransactionHex(tr).block().orElseThrow();
         securityUtils.signTransaction(tr, serialized, keys);
         return tr;
     }

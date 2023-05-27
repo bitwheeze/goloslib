@@ -15,8 +15,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan("bitwheeze.golos.goloslib")
 class GoloslibApplicationTests {
 
-    @Autowired
-    GolosApi api;
 
     @Autowired
     ObjectMapper mapper;

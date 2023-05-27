@@ -1,6 +1,7 @@
 package bitwheeze.golos.goloslib;
 
 import bitwheeze.golos.goloslib.utilities.GolosTools;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @SpringBootTest
 @ComponentScan("bitwheeze.golos.goloslib")
+@RequiredArgsConstructor
 class GolosApiTest {
 
-    @Autowired
-    SecurityUtils securityUtils;
-
-    @Autowired
-    TransactionFactory transactionFactory;
-
-    @Autowired
-    private GolosApi api;
+    @Autowired private TransactionFactory transactionFactory;
+    @Autowired private DatabaseApi api;
+    @Autowired private SocialNetworkApi social;
+    @Autowired private OperationHistoryApi history;
 
     @Test
     void getDynamicGlobalProperties() {
@@ -36,7 +34,7 @@ class GolosApiTest {
     void getBlock() {
         final long TEST_BLOCK_NUM = 52518042;
         final String TEST_PREV = "03215c996c7c4ad648b94169aeb639e28db1b4bb";
-        var block = api.getBlock(TEST_BLOCK_NUM);
+        var block = api.getBlock(TEST_BLOCK_NUM).block();
         log.info("got response {}", block);
         assertEquals(TEST_BLOCK_NUM+"", block.getId());
         assertEquals(TEST_PREV, block.orElseThrow().getPrevious());
@@ -45,7 +43,7 @@ class GolosApiTest {
     @Test
     void getAccount() {
         final String TEST_ACC = "bitwheeze";
-        var acc = api.getAccount(TEST_ACC);
+        var acc = api.getAccount(TEST_ACC).block();
         assertNotNull(acc);
         assertEquals(TEST_ACC, acc.orElseThrow().getName());
     }
@@ -56,13 +54,13 @@ class GolosApiTest {
         var acc = api.getAccount(TEST_ACC);
         log.info("random account {}", acc);
         assertNotNull(acc);
-        assertEquals(TEST_ACC, acc.orElseThrow().getName());
+        assertEquals(TEST_ACC, acc.block().orElseThrow().getName());
     }
 
     @Test
     void getAccountsStringArr() {
         final String TEST_ACC = "bitwheeze";
-        var acc = api.getAccounts(new String[] {TEST_ACC}).orElseThrow().get(0);
+        var acc = api.getAccounts(new String[] {TEST_ACC}).block().orElseThrow().get(0);
         assertNotNull(acc);
         assertEquals(TEST_ACC, acc.getName());
     }
@@ -70,7 +68,7 @@ class GolosApiTest {
     @Test
     void getAccountsBalancesArr() {
         final String TEST_ACC = "prizm";
-        var acc = api.getAccountsBalances(new String[] {TEST_ACC}).orElseThrow().get(0);
+        var acc = api.getAccountsBalances(new String[] {TEST_ACC}).block().orElseThrow().get(0);
         assertNotNull(acc);
         assertNotNull(acc.get("YMPZM"));
         log.info("prizm balances {}", acc.get("YMPZM"));
@@ -79,7 +77,7 @@ class GolosApiTest {
     @Test
     void getAccountsStringList() {
         final String TEST_ACC = "bitwheeze";
-        var acc = api.getAccounts(List.of(TEST_ACC)).orElseThrow().get(0);
+        var acc = api.getAccounts(List.of(TEST_ACC)).block().orElseThrow().get(0);
         assertNotNull(acc);
         assertEquals(TEST_ACC, acc.getName());
     }
@@ -87,13 +85,13 @@ class GolosApiTest {
     @Test
     void getOpsInBlock() {
         final long TEST_BLOCK_NUM = 52518042;
-        var ops = api.getOpsInBlock(TEST_BLOCK_NUM, false).orElseThrow();
+        var ops = history.getOpsInBlock(TEST_BLOCK_NUM, false).block().orElseThrow();
         assertFalse(ops.isEmpty());
     }
 
     @Test
     void getAssets() {
-        var assets = api.getAssets("", new String [] {"PRIZM"}, "", 2, null).orElseThrow();
+        var assets = api.getAssets("", new String [] {"PRIZM"}, "", 2, null).block().orElseThrow();
         assertEquals(1, assets.size());
         assertEquals("6000000000.00 PRIZM", assets.get(0).getMaxSupply());
         assertEquals(2, assets.get(0).getPrecision());
@@ -105,7 +103,7 @@ class GolosApiTest {
 
     @Test
     void lookupAccounts() {
-        var accs = api.lookupAccounts("bitwhe", 1).orElseThrow();
+        var accs = api.lookupAccounts("bitwhe", 1).block().orElseThrow();
         assertFalse(accs.isEmpty());
     }
 
@@ -116,12 +114,12 @@ class GolosApiTest {
                 .addTransfer("bitwheeze", "bitwheeze", "1.000", "GOLOS", "test")
                 .setReferenceBlock()
                 .build();
-        var hexed = api.getTransactionHex(tr).orElseThrow();
+        var hexed = api.getTransactionHex(tr).block().orElseThrow();
     }
 
     @Test
     void getContent() {
-        var content = api.getContent("bitwheeze", "volya", 0, 0).orElseThrow();
+        var content = social.getContent("bitwheeze", "volya", 0, 0).block().orElseThrow();
         log.info("content {}", content);
         assertNotNull(content);
         assertTrue(content.getId() > 0);
@@ -132,7 +130,7 @@ class GolosApiTest {
 
     @Test
     void getContentNotExisting() {
-        var content = api.getContent("bitwheeze", "volyag63g3746g736g4r374", 0, 0).orElseThrow();
+        var content = social.getContent("bitwheeze", "volyag63g3746g736g4r374", 0, 0).block().orElseThrow();
         log.info("content {}", content);
         assertNotNull(content);
         assertEquals(0, content.getId());
@@ -142,21 +140,21 @@ class GolosApiTest {
 
     @Test
     void getChainProperties() {
-        var props = api.getChainProperties().orElseThrow();
+        var props = api.getChainProperties().block().orElseThrow();
         log.info("props = {}", props);
         assertTrue(props.getMaximumBlockSize() > 0);
     }
 
     @Test
     void getConfig() {
-        var config = api.getConfig().orElseThrow();
+        var config = api.getConfig().block().orElseThrow();
         log.info("config = {}", config);
         assertTrue(config.getSteemitVoteRegenerationSeconds() > 0);
     }
 
     @Test void getCurrentVotePower() {
-        var config = api.getConfig().orElseThrow();
-        var bitwheeze = api.getAccount("bitwheeze");
+        var config = api.getConfig().block().orElseThrow();
+        var bitwheeze = api.getAccount("bitwheeze").block();
         assertTrue(bitwheeze.isPresent());
         int current_vote_power = GolosTools.calcCurrentVotePower(bitwheeze.get(), config);
 

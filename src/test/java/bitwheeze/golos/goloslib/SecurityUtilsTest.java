@@ -27,9 +27,6 @@ class SecurityUtilsTest {
     @Autowired
     TransactionFactory transactionBuilderFactory;
 
-    @Autowired
-    private GolosApi api;
-
     @Test
     public void getPublicKeyFromPrivateKey() {
         String pubKey = SecurityUtils.getPublicKeyFromPrivateKey(PRIVKEY);

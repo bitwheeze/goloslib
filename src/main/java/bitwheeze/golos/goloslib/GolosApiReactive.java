@@ -1,6 +1,6 @@
 package bitwheeze.golos.goloslib;
 
-import bitwheeze.golos.goloslib.model.ApiMethod;
+import bitwheeze.golos.goloslib.model.api.ApiMethod;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
