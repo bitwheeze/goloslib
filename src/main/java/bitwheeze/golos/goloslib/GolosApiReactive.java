@@ -2,12 +2,12 @@ package bitwheeze.golos.goloslib;
 
 import bitwheeze.golos.goloslib.model.api.ApiMethod;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-@Component
 public class GolosApiReactive {
 
     final WebClient client;
