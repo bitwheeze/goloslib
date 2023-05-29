@@ -28,6 +28,7 @@ class GolosApiTest {
 
     @Test
     void getDynamicGlobalProperties() {
+        log.info(api.getDynamicGlobalProperties().block().orElseThrow().toString());
     }
 
     @Test

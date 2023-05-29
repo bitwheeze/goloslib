@@ -11,6 +11,7 @@ public class ApiMethod {
     private final String jsonrpc = "2.0";
     private final String method = "call"; //: "call" //TODO: Types?
     private final Object[] params = new Object[3];
+    @JsonIgnore
     private final String[] paramNames;
 
     public ApiMethod(String api, String method, int parameterCount) {

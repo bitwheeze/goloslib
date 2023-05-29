@@ -1,5 +1,8 @@
 package bitwheeze.golos.goloslib;
 
+import bitwheeze.golos.goloslib.model.op.LimitOrderCancel;
+import bitwheeze.golos.goloslib.model.op.Operation;
+import bitwheeze.golos.goloslib.model.op.Vote;
 import bitwheeze.golos.goloslib.utilities.GolosTools;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -9,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,6 +31,9 @@ class MarketHistoryApiTest {
     @Autowired
     private MarketHistoryApi api;
 
+    @Autowired
+    private NetworkBroadcastApi netApi;
+
     @Test
     void getOpenOrders() {
         var resp = api.getOpenOrders("lex", "YMHIVE", "GOLOS").block();
@@ -41,6 +48,42 @@ class MarketHistoryApiTest {
         };
     }
 
+    @Test
+    public void vote() {
+        final var builder = transactionFactory.getBuidler();
+        builder.addVote("lex", "lllll1ll", "dnevnik-3-marta", 10000);
+        var tr = builder.buildAndSign(new String [] {"5K67PNheLkmxkgJ5UjvR8Nyt3GVPoLEN1dMZjFuNETzrNyMecPG"});
+        netApi.broadcastTransaction(tr).block().orElseThrow();
+    }
+
+    @Test
+    public void closeAllOpenOrders() {
+        final var builder = transactionFactory.getBuidler();
+        List<Operation> ops = new ArrayList<>();
+        api.getOpenOrders("lex", "YMHIVE", "GOLOS")
+                .block()
+                .orElseThrow()
+                .stream()
+                .map(openOrder -> {
+                    log.info("open order {}", openOrder);
+                    var cancelOp = new LimitOrderCancel();
+                    cancelOp.setOwner(openOrder.getSeller());
+                    cancelOp.setOrderid(openOrder.getOrderid());
+                    return cancelOp;
+                })
+                .forEach(op -> ops.add(op));
+
+        if(ops.isEmpty()) {
+            return;
+        }
+        ops.forEach(op -> {
+            log.info("add cancel order {}", op);
+            builder.add(op);
+        });
+        var tr = builder.buildAndSign(new String [] {"5K67PNheLkmxkgJ5UjvR8Nyt3GVPoLEN1dMZjFuNETzrNyMecPG"});
+        netApi.broadcastTransaction(tr).block().orElseThrow();
+
+    }
 
     @SpringBootApplication
     static class TestConfiguration {
