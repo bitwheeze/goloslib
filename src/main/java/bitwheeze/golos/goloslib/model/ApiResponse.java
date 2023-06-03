@@ -74,5 +74,7 @@ public class ApiResponse<T> {
     public static class ConfigResponse extends ApiResponse<Config> {}
 
 
+    //TODO: move to corresponding api blocks
     public static class OpenOrdersResponse extends ApiResponse<List<OpenOrder>> {}
+    public static class MedianHistoryPriceResponse extends ApiResponse<Price> {};
 }

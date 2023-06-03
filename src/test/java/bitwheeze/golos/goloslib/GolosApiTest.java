@@ -25,6 +25,7 @@ class GolosApiTest {
     @Autowired private DatabaseApi api;
     @Autowired private SocialNetworkApi social;
     @Autowired private OperationHistoryApi history;
+    @Autowired private WitnessApi witness;
 
     @Test
     void getDynamicGlobalProperties() {
@@ -162,6 +163,11 @@ class GolosApiTest {
         long secondsFullRegeneration = (long)GolosTools.calcSecondsTillFullRegenerated(bitwheeze.get(), config);
 
         log.info("current_vote_power = {}, remaining seconds = {}", current_vote_power, LocalDateTime.now().plusSeconds(secondsFullRegeneration));
+    }
+
+    @Test void getCurrentMedianHistoryPrice() {
+        var price = witness.getGetCurrentMedianHistoryPrice().block().orElseThrow();
+        log.info("current price {}", price );
     }
 
     @SpringBootApplication
