@@ -26,6 +26,7 @@ class GolosApiTest {
     @Autowired private SocialNetworkApi social;
     @Autowired private OperationHistoryApi history;
     @Autowired private WitnessApi witness;
+    @Autowired private EventApi eventApi;
 
     @Test
     void getDynamicGlobalProperties() {
@@ -168,6 +169,11 @@ class GolosApiTest {
     @Test void getCurrentMedianHistoryPrice() {
         var price = witness.getGetCurrentMedianHistoryPrice().block().orElseThrow();
         log.info("current price {}", price );
+    }
+
+    @Test void getEventsInBlock() {
+        var eventList = eventApi.getEventsInBlock(70239546, false).block().orElseThrow();
+        eventList.stream().forEach( event -> log.info("  event {}", event));
     }
 
     @SpringBootApplication
