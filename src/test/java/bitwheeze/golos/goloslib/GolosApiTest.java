@@ -195,6 +195,21 @@ class GolosApiTest {
     @Test void getEventsInBlock() {
         var eventList = eventApi.getEventsInBlock(70239546, false).block().orElseThrow();
         eventList.stream().forEach( event -> log.info("  event {}", event));
+
+        eventList = eventApi.getEventsInBlock(70781322, false).block().orElseThrow();
+        eventList.stream().forEach( event -> log.info("  event {}", event));
+
+        eventList = eventApi.getEventsInBlock(70784913, false).block().orElseThrow();
+        eventList.stream().forEach( event -> log.info("  event {}", event));
+
+        eventList = eventApi.getEventsInBlock(70653402, false).block().orElseThrow();
+        eventList.stream().forEach( event -> log.info("  event {}", event));
+
+        eventList = eventApi.getEventsInBlock(70784465, false).block().orElseThrow();
+        eventList.stream().forEach( event -> log.info("  event {}", event));
+
+
+
     }
 
     @SpringBootApplication
