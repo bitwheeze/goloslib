@@ -1,5 +1,6 @@
 package bitwheeze.golos.goloslib;
 
+import bitwheeze.golos.goloslib.model.exception.BlockchainError;
 import bitwheeze.golos.goloslib.utilities.GolosTools;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ class GolosApiTest {
     @Autowired private OperationHistoryApi history;
     @Autowired private WitnessApi witness;
     @Autowired private EventApi eventApi;
+    @Autowired private NetworkBroadcastApi netApi;
 
     @Test
     void getDynamicGlobalProperties() {
@@ -114,11 +116,30 @@ class GolosApiTest {
     void getTransactionHex() {
         var tr = transactionFactory
                 .getBuidler()
-                .addTransfer("bitwheeze", "bitwheeze", "1.000", "GOLOS", "test")
+                .addTransfer("bitwheeze", "ebgerghberbuebreurzgb", "1.000", "GOLOS", "test")
                 .setReferenceBlock()
                 .build();
         var hexed = api.getTransactionHex(tr).block().orElseThrow();
     }
+
+    @Test
+    void badTransaction() {
+        var tr = transactionFactory
+                .getBuidler()
+                .addTransfer("bitwheeze", "ebgerghberbuebreurzgb", "1.000", "GOLOS", "test")
+                .setReferenceBlock()
+                .build();
+
+        try {
+            var response = netApi.broadcastTransaction(tr).block().orElseThrow();
+        } catch (BlockchainError error) {
+            log.info("error = {}", error.getError());
+            return;
+        }
+        fail("Expected an exception");
+
+    }
+
 
     @Test
     void getContent() {

@@ -1,6 +1,8 @@
 package bitwheeze.golos.goloslib.model;
 
 import bitwheeze.golos.goloslib.AssetDefinition;
+import bitwheeze.golos.goloslib.model.exception.BlockchainError;
+import bitwheeze.golos.goloslib.model.exception.NodeError;
 import bitwheeze.golos.goloslib.model.op.Operation;
 import bitwheeze.golos.goloslib.model.op.virtual.Event;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -23,10 +25,10 @@ public class ApiResponse<T> {
     String jsonrpc;
     @Setter
     T result;
-    @JsonDeserialize(using = ToStringDeserializer.class)
+
     @Setter
     @Getter
-    String error;
+    NodeError error;
 
     @Setter
     @Getter
@@ -42,7 +44,7 @@ public class ApiResponse<T> {
     
     public T orElseThrow() {
         if (result == null) {
-            throw new RuntimeException(error);
+            throw new BlockchainError(error);
         }
         return result;
     }
