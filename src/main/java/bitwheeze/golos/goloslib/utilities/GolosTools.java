@@ -1,11 +1,11 @@
 package bitwheeze.golos.goloslib.utilities;
 
-import bitwheeze.golos.goloslib.model.Account;
-import bitwheeze.golos.goloslib.model.ChainProperties;
-import bitwheeze.golos.goloslib.model.Config;
+import bitwheeze.golos.goloslib.model.*;
 import bitwheeze.golos.goloslib.types.ChainTypes;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
@@ -32,4 +32,23 @@ public class GolosTools {
         var current_power = calcCurrentVotePower(account, config);
         return config.getSteemitVoteRegenerationSeconds() * (long)(config.getSteemit100Percent() - current_power) / config.getSteemit100Percent();
     }
+
+    public static BigDecimal calcEmissionPerDay(BigDecimal vestingShares, DynamicGlobalProperties props) {
+        var total = props.getTotalVestingShares().getValue();
+        var acc = convertGolosToVestings(props.getAccumulativeEmissionPerDay().getValue(), props);
+        return acc.multiply(vestingShares).divide(total, RoundingMode.HALF_DOWN).setScale(6, RoundingMode.DOWN);
+    }
+
+    public static BigDecimal convertVestingsToGolos(BigDecimal vestings, DynamicGlobalProperties props) {
+        var totalVestings = props.getTotalVestingShares().getValue();
+        var totalGolos = props.getTotalVestingFundSteem().getValue();
+        return totalGolos.multiply(vestings).divide(totalVestings, RoundingMode.HALF_DOWN).setScale(3, RoundingMode.DOWN);
+    }
+
+    public static BigDecimal convertGolosToVestings(BigDecimal golos, DynamicGlobalProperties props) {
+        var totalVestings = props.getTotalVestingShares().getValue();
+        var totalGolos = props.getTotalVestingFundSteem().getValue();
+        return totalVestings.multiply(golos).divide(totalGolos, RoundingMode.HALF_DOWN).setScale(6, RoundingMode.DOWN);
+    }
+
 }

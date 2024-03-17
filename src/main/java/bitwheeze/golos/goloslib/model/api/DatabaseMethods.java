@@ -12,6 +12,7 @@ public class DatabaseMethods extends ApiMethod {
     public static ApiMethod getAssets() {return new DatabaseMethods("get_assets", 5);};
     public static ApiMethod getChainProperties() {return new DatabaseMethods("get_chain_properties", 0);};
     public static ApiMethod getConfig() {return new DatabaseMethods("get_config", 0);};
+    public static ApiMethod getVestingDelegations() {return new DatabaseMethods("get_vesting_delegations", 4);};
 
 
     public DatabaseMethods(String method, String [] paramNames) {

@@ -83,4 +83,6 @@ public class ApiResponse<T> {
     public static class MedianHistoryPriceResponse extends ApiResponse<Price> {};
 
     public static class GetEventsInBlockResponse extends ApiResponse<List<Event>> {};
+
+    public static class VestingDelegationResponse extends ApiResponse<List<VestingDelegation>> {};
 }

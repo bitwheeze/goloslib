@@ -6,6 +6,7 @@ import bitwheeze.golos.goloslib.model.ApiResponse;
 import bitwheeze.golos.goloslib.model.Transaction;
 import bitwheeze.golos.goloslib.model.api.DatabaseMethods;
 import bitwheeze.golos.goloslib.model.api.NetworkBroadcastMethods;
+import bitwheeze.golos.goloslib.types.DelegationType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -89,6 +90,16 @@ public class DatabaseApi extends GolosApiReactive {
 
     public Mono<ApiResponse.ConfigResponse> getConfig() {
         return send(DatabaseMethods.getConfig(), ApiResponse.ConfigResponse.class);
+    }
+
+    public Mono<ApiResponse.VestingDelegationResponse> getVestingDelegations(String account, String from, Integer limit, DelegationType type) {
+        var method = DatabaseMethods.getVestingDelegations();
+        method.getMethodParams()[0] = account;
+        method.getMethodParams()[1] = Optional.ofNullable(from).orElse("");;
+        method.getMethodParams()[2] = Optional.ofNullable(limit).orElse(10);
+        method.getMethodParams()[3] = type;
+
+        return send(method, ApiResponse.VestingDelegationResponse.class);
     }
 
 }

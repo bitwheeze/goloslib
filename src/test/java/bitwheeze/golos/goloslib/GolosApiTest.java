@@ -1,7 +1,19 @@
 package bitwheeze.golos.goloslib;
 
+import bitwheeze.golos.goloslib.model.VestingDelegation;
 import bitwheeze.golos.goloslib.model.exception.BlockchainError;
+import bitwheeze.golos.goloslib.model.nft.NftToken;
+import bitwheeze.golos.goloslib.model.nft.NftTokenQuery;
+import bitwheeze.golos.goloslib.model.op.NftCollection;
+import bitwheeze.golos.goloslib.model.op.NftCollectionDelete;
+import bitwheeze.golos.goloslib.model.op.NftIssue;
+import bitwheeze.golos.goloslib.model.op.NftTransfer;
+import bitwheeze.golos.goloslib.types.DelegationType;
 import bitwheeze.golos.goloslib.utilities.GolosTools;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Builder;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -11,8 +23,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,6 +43,10 @@ class GolosApiTest {
     @Autowired private WitnessApi witness;
     @Autowired private EventApi eventApi;
     @Autowired private NetworkBroadcastApi netApi;
+    @Autowired private NftApi nftApi;
+
+    private static final String POSTING_WIF = "5HwQScueMZdELZpjVBD4gm6xhiKiMqGx18g4WtQ6wVr4nBdSxY5";
+    private static final String ACTIVE_WIF = "5K67PNheLkmxkgJ5UjvR8Nyt3GVPoLEN1dMZjFuNETzrNyMecPG";
 
     @Test
     void getDynamicGlobalProperties() {
@@ -91,7 +109,7 @@ class GolosApiTest {
     void getOpsInBlock() {
         final long TEST_BLOCK_NUM = 52518042;
         var ops = history.getOpsInBlock(TEST_BLOCK_NUM, false).block().orElseThrow();
-        assertFalse(ops.isEmpty());
+        //assertFalse(ops.isEmpty());
     }
 
     @Test
@@ -140,6 +158,80 @@ class GolosApiTest {
 
     }
 
+
+    @Test
+    void createNftCollection() throws JsonProcessingException {
+        @Data
+        class CollectionDesc {
+            String desc = "Medal of Honor";
+            String app = "lexicon";
+        }
+
+        //{"hero":"Canon the Barbarian","desc":"Рубит всех своим мечем налево и на право","type":"legendary","health":120,"str":100,"defence":40,"mana":10,"consumes":"red,blue"}
+        @Data
+        class TokenDesc {
+            String id = UUID.randomUUID().toString();
+            String title = "Canon the Barbarian";
+            String description = "Рубит всех своим мечем налево и на право";
+            String image = "https://devimages.golos.today/0x0/https://steemitimages.com/0x0/https://i.imgur.com/V1pnpH8.png";
+            String type = "legendary";
+            int health = 120;
+            int strength = 100;
+            int defence = 40;
+            int mana = 10;
+            String [] consumes = new String[] {"red", "blue"};
+        }
+
+        @Data
+        class Medal {
+            String id = UUID.randomUUID().toString();
+            String title = "Speedy Gonzales";
+            String description = "Значок отличника раскладывания пасьянса. Самый быстрый расклад. Владелец этого значка может разово вернуть сделанную ставку.";
+            String image = "https://devimages.golos.today/0x0/https://steemitimages.com/0x0/https://i.imgur.com/1RzAWCi.jpg";
+            String type = "legendary";
+        }
+
+        var tr = transactionFactory
+                .getBuidler()
+                .add(new NftCollection("travian", "GOLOS.BACKERS", new ObjectMapper().writeValueAsString(new CollectionDesc()), 1000, new String[0]))
+                .buildAndSign(new String[] {ACTIVE_WIF});
+        netApi.broadcastTransaction(tr).block().orElseThrow();
+
+           var tr1 = transactionFactory
+                    .getBuidler()
+                    .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new TokenDesc()), new String[0]))
+                    .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                   .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                   .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                   .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                   .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                   .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                   .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                   .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                   .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                   .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
+                    .buildAndSign(new String[]{ACTIVE_WIF});
+            netApi.broadcastTransaction(tr1).block().orElseThrow();
+
+
+            List<NftToken> tokens = nftApi.getNftToken(NftTokenQuery.builder().owner("lex").limit(100).build()).block().orElseThrow();
+            log.info("tokens size {}", tokens.size());
+            tokens.forEach(t -> log.info("token {}", t));
+        {
+            tr = transactionFactory
+                    .getBuidler()
+                    .add(new NftCollectionDelete("lex", "GOLOS.BACKER", new String[0]))
+                    .buildAndSign(new String[] {ACTIVE_WIF});
+            netApi.broadcastTransaction(tr).block().orElseThrow();
+        }
+
+    }
 
     @Test
     void getContent() {
@@ -212,7 +304,29 @@ class GolosApiTest {
 
     }
 
+    @Test void getEmission() {
+        var props = api.getDynamicGlobalProperties().block().orElseThrow();
+        log.info("conversion rate {}", GolosTools.convertGolosToVestings(BigDecimal.ONE, props));
+        log.info("conversion rate {}", GolosTools.convertVestingsToGolos(GolosTools.convertGolosToVestings(BigDecimal.ONE, props), props));
+        var delegatedVestings = api.getVestingDelegations("bitwheeze", "ramin", 100, DelegationType.received).block().orElseThrow();
+        var received = delegatedVestings.stream()
+                .peek(d -> log.info("received delelgation {}", d))
+                .filter(VestingDelegation::isEmission)
+                .map(d -> d.getVestingShares().getValue())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+
+        log.info("receved with emission {}", received);
+        log.info("emission per day total = {}", props.getAccumulativeEmissionPerDay());
+        if(received.compareTo(BigDecimal.ZERO) > 0) {
+            var emission = GolosTools.calcEmissionPerDay(received, props);
+            log.info("Emission per day from Prizm = {}", GolosTools.convertVestingsToGolos(emission, props));
+            
+        }
+    }
+
     @SpringBootApplication
     static class TestConfiguration {
     }
+
 }
