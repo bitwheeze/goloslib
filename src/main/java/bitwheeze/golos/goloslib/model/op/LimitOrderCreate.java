@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import bitwheeze.golos.goloslib.model.Asset;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
@@ -13,6 +15,8 @@ import lombok.ToString;
 @ToString
 @JsonDeserialize(using = JsonDeserializer.None.class)
 @OpName("limit_order_create")
+@AllArgsConstructor
+@Builder
 public class LimitOrderCreate extends Operation {
     private String owner;
     private long orderid;

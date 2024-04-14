@@ -18,6 +18,5 @@ public class DelegateVestingSharesWithInterest extends Operation {
     String delegatee;
     Asset vestingShares;
     int interestRate;
-    @JsonDeserialize(using = ToStringDeserializer.class)
-    private String extensions;
+    private String[] extensions;
 }

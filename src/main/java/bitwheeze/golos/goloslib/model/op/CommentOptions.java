@@ -19,6 +19,5 @@ public class CommentOptions extends Operation {
     private short percentSteemDollars;
     private boolean allowVotes;
     private boolean allowCurationRewards;
-    @JsonDeserialize(using = ToStringDeserializer.class)
-    private String extensions;
+    private String[] extensions;
 }
