@@ -14,8 +14,8 @@ public class Block {
     private LocalDateTime timestamp;
     private String witness;
     private String transactionMerkleRoot;
-    @JsonDeserialize(using = ToStringDeserializer.class)    
-    private String extensions; //TODO:
+    @JsonDeserialize(using = ToStringArrayDeserializer.class)
+    private String[] extensions; //TODO:
     private String witnessSignature;
     private Transaction[] transactions;
     private long timestampMsec;

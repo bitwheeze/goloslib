@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,12 +56,24 @@ class GolosApiTest {
 
     @Test
     void getBlock() {
-        final long TEST_BLOCK_NUM = 52518042;
-        final String TEST_PREV = "03215c996c7c4ad648b94169aeb639e28db1b4bb";
-        var block = api.getBlock(TEST_BLOCK_NUM).block();
+        final long TEST_BLOCK_NUM = 78682176;
+        final String TEST_PREV = "04b0983fa9fe9f7c9b8590daaa466ca2bca58238";
+        var block = api.getBlock(TEST_BLOCK_NUM).block().orElseThrow();
         log.info("got response {}", block);
-        assertEquals(TEST_BLOCK_NUM+"", block.getId());
-        assertEquals(TEST_PREV, block.orElseThrow().getPrevious());
+        log.info("comment_options {}", block.getTransactions()[0].getOperations()[1]);
+        assertEquals(TEST_PREV, block.getPrevious());
+    }
+
+    @Test
+    @SneakyThrows
+    void getBlockRange() {
+        long startBlock = 78682176;
+        for(int i = 0; i < 50000; i++) {
+            final var blockNo = startBlock + i;
+            var block = api.getBlock(blockNo).block().orElseThrow();
+            log.info("block {}: {}", blockNo, block.getTransactions());
+            Thread.sleep(500);
+        }
     }
 
     @Test

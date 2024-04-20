@@ -1,6 +1,7 @@
 package bitwheeze.golos.goloslib.model.op;
 
 import bitwheeze.golos.goloslib.model.Asset;
+import bitwheeze.golos.goloslib.model.ToStringArrayDeserializer;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
@@ -19,5 +20,6 @@ public class Donate extends Operation {
     private String to;
     private Asset amount;
     private DonateMemo memo;
+    @JsonDeserialize(using = ToStringArrayDeserializer.class)
     private String[] extensions;
 }

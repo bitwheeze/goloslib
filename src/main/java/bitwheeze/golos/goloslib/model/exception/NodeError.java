@@ -11,5 +11,5 @@ public class NodeError {
     long code;
     String message;
     @JsonDeserialize(using = ToStringDeserializer.class)
-    String data;
+    String[] data;
 }

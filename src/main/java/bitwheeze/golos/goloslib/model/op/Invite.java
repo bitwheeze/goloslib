@@ -1,7 +1,7 @@
 package bitwheeze.golos.goloslib.model.op;
 
 import bitwheeze.golos.goloslib.model.Asset;
-import bitwheeze.golos.goloslib.model.ToStringDeserializer;
+import bitwheeze.golos.goloslib.model.ToStringArrayDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +17,6 @@ public class Invite extends Operation {
     String creator;
     Asset balance;
     String inviteKey;
+    @JsonDeserialize(using = ToStringArrayDeserializer.class)
     private String[] extensions;
 }

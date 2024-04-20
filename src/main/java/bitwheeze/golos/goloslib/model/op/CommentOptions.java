@@ -1,5 +1,6 @@
 package bitwheeze.golos.goloslib.model.op;
 
+import bitwheeze.golos.goloslib.model.ToStringArrayDeserializer;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -19,5 +20,6 @@ public class CommentOptions extends Operation {
     private short percentSteemDollars;
     private boolean allowVotes;
     private boolean allowCurationRewards;
+    @JsonDeserialize(using = ToStringArrayDeserializer.class)
     private String[] extensions;
 }

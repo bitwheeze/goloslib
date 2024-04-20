@@ -1,6 +1,7 @@
 package bitwheeze.golos.goloslib.model.op;
 
 import bitwheeze.golos.goloslib.model.Asset;
+import bitwheeze.golos.goloslib.model.ToStringArrayDeserializer;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
@@ -15,5 +16,6 @@ import lombok.ToString;
 public class NftCancelOrder extends Operation {
     private String owner;
     private int orderId;
+    @JsonDeserialize(using = ToStringArrayDeserializer.class)
     private String[] extensions;
 }

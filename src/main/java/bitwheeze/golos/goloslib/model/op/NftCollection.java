@@ -1,6 +1,7 @@
 package bitwheeze.golos.goloslib.model.op;
 
 import bitwheeze.golos.goloslib.model.Asset;
+import bitwheeze.golos.goloslib.model.ToStringArrayDeserializer;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
@@ -17,5 +18,6 @@ public class NftCollection extends Operation {
     private String name;
     private String jsonMetadata;
     private int maxTokenCount;
+    @JsonDeserialize(using = ToStringArrayDeserializer.class)
     private String[] extensions;
 }

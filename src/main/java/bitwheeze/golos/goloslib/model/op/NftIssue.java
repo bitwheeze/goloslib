@@ -1,5 +1,6 @@
 package bitwheeze.golos.goloslib.model.op;
 
+import bitwheeze.golos.goloslib.model.ToStringArrayDeserializer;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
@@ -16,5 +17,6 @@ public class NftIssue extends Operation {
     private String name;
     private String to;
     private String jsonMetadata;
+    @JsonDeserialize(using = ToStringArrayDeserializer.class)
     private String[] extensions;
 }
