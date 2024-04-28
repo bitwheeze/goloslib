@@ -56,7 +56,7 @@ class GolosApiTest {
 
     @Test
     void getBlock() {
-        final long TEST_BLOCK_NUM = 78682176;
+        final long TEST_BLOCK_NUM = 78836541;
         final String TEST_PREV = "04b0983fa9fe9f7c9b8590daaa466ca2bca58238";
         var block = api.getBlock(TEST_BLOCK_NUM).block().orElseThrow();
         log.info("got response {}", block);

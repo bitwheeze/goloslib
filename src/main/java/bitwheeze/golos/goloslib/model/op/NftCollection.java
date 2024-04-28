@@ -17,7 +17,7 @@ public class NftCollection extends Operation {
     private String creator;
     private String name;
     private String jsonMetadata;
-    private int maxTokenCount;
+    private long maxTokenCount;
     @JsonDeserialize(using = ToStringArrayDeserializer.class)
     private String[] extensions;
 }
