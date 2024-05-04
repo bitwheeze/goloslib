@@ -62,7 +62,7 @@ public class OperationPackDeserializer extends StdDeserializer<OperationPack> {
             RawOperation op = new RawOperation();
             op.setOpName(opName);
             op.setOpBody(opBodyRaw.toString());
-            log.warn("unknwon operation {}", op);
+            log.warn("unknown operation {}", op);
             return op;
         }
     }

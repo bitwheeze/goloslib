@@ -12,6 +12,7 @@ public class Content {
     long id;
     String author;
     String permlink;
+    String hashlink;
     String parentAuthor;
     String parentPermlink;
     String category;
@@ -62,11 +63,16 @@ public class Content {
     long votesInAuctionWindowWeight;    //0,
     long rootComment;    //10152707,
     String rootTitle;    //Обновление игрушки",
+    String rootAuthor;
+    String app;
     Asset maxAcceptedPayout;    //10000.000 GBG",
     int percentSteemDollars;    //0,
     boolean allowReplies;    //true,
     boolean allowVotes;    //true,
     boolean allowCurationRewards;    //true,
+
+    Asset decryptFee;
+
     int curationRewardsPercent;    //5000,
     Asset minGolosPowerToCurate;    //5000.000 GOLOS",
     boolean has_worker_request;    //false,
