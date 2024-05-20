@@ -36,6 +36,7 @@ public class GolosApiConfiguration {
                 .codecs(clientDefaultCodecsConfigurer -> {
                     clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(mapper, MediaType.APPLICATION_JSON));
                     clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(mapper, MediaType.valueOf(mediaType)));
+                    clientDefaultCodecsConfigurer.defaultCodecs().maxInMemorySize(16 * 1024 * 1024);
                 })
                 .build();
                 
