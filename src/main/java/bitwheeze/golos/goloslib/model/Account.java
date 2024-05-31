@@ -80,6 +80,8 @@ public class Account {
     private long postsCapacity;
     private long commentsCapacity;
     private long votingCapacity;
+    private long referralCount;
+    private long sponsorCount;
     private String referrerAccount;
     private int referrerInterestRate;
     private LocalDateTime referralEndDate;
