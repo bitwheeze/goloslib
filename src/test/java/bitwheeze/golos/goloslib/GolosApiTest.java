@@ -171,6 +171,12 @@ class GolosApiTest {
 
     }
 
+    @Test
+    void getTokens() {
+        List<NftToken> tokens = nftApi.getNftToken(NftTokenQuery.builder().owner("lex").limit(100).build()).block().orElseThrow();
+        log.info("tokens size {}", tokens.size());
+        tokens.forEach(t -> log.info("token {}", t));
+    }
 
     @Test
     void createNftCollection() throws JsonProcessingException {

@@ -14,7 +14,7 @@ public class NftToken {
     String creator;
     String name;
     String owner;
-    int token_id;
+    int tokenId;
     Asset issueCost;
     Asset lastBuyPrice;
     String jsonMetadata;
