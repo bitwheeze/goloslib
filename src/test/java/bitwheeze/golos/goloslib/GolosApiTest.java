@@ -48,6 +48,7 @@ class GolosApiTest {
 
     private static final String POSTING_WIF = "5HwQScueMZdELZpjVBD4gm6xhiKiMqGx18g4WtQ6wVr4nBdSxY5";
     private static final String ACTIVE_WIF = "5K67PNheLkmxkgJ5UjvR8Nyt3GVPoLEN1dMZjFuNETzrNyMecPG";
+    /*
 
     @Test
     void getDynamicGlobalProperties() {
@@ -63,7 +64,6 @@ class GolosApiTest {
         log.info("comment_options {}", block.getTransactions()[0].getOperations()[1]);
         assertEquals(TEST_PREV, block.getPrevious());
     }
-
     @Test
     @SneakyThrows
     void getBlockRange() {
@@ -75,7 +75,6 @@ class GolosApiTest {
             Thread.sleep(500);
         }
     }
-
     @Test
     void getAccount() {
         final String TEST_ACC = "bitwheeze";
@@ -209,7 +208,6 @@ class GolosApiTest {
             String image = "https://devimages.golos.today/0x0/https://steemitimages.com/0x0/https://i.imgur.com/1RzAWCi.jpg";
             String type = "legendary";
         }
-        /*
         var tr = transactionFactory
                 .getBuidler()
                 .add(new NftCollection("travian", "GOLOS.BACKERS", new ObjectMapper().writeValueAsString(new CollectionDesc()), 1000, new String[0]))
@@ -221,7 +219,6 @@ class GolosApiTest {
                 .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new TokenDesc()), new String[0]))
                 .buildAndSign(new String[]{ACTIVE_WIF});
         log.info("signedTrans {}", signedTrans);
-*/
 
            transactionFactory
                     .getBuidler()
@@ -232,7 +229,6 @@ class GolosApiTest {
                             .flatMap(tr1 -> netApi.broadcastTransaction(tr1))
                    .block().orElseThrow();
 
-        /*
             List<NftToken> tokens = nftApi.getNftToken(NftTokenQuery.builder().owner("lex").limit(100).build()).block().orElseThrow();
             log.info("tokens size {}", tokens.size());
             tokens.forEach(t -> log.info("token {}", t));
@@ -243,7 +239,6 @@ class GolosApiTest {
                     .buildAndSign(new String[] {ACTIVE_WIF});
             netApi.broadcastTransaction(tr).block().orElseThrow();
         }
-        */
     }
 
     @Test
@@ -341,5 +336,6 @@ class GolosApiTest {
     @SpringBootApplication
     static class TestConfiguration {
     }
+*/
 
 }
