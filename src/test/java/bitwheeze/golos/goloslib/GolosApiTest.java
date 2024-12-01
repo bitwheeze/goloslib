@@ -209,47 +209,41 @@ class GolosApiTest {
             String image = "https://devimages.golos.today/0x0/https://steemitimages.com/0x0/https://i.imgur.com/1RzAWCi.jpg";
             String type = "legendary";
         }
-
+        /*
         var tr = transactionFactory
                 .getBuidler()
                 .add(new NftCollection("travian", "GOLOS.BACKERS", new ObjectMapper().writeValueAsString(new CollectionDesc()), 1000, new String[0]))
                 .buildAndSign(new String[] {ACTIVE_WIF});
         netApi.broadcastTransaction(tr).block().orElseThrow();
+        final var signedTrans = transactionFactory
+                .getBuidler()
+                .refBlockNum(85165252)
+                .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new TokenDesc()), new String[0]))
+                .buildAndSign(new String[]{ACTIVE_WIF});
+        log.info("signedTrans {}", signedTrans);
+*/
 
-           var tr1 = transactionFactory
+           transactionFactory
                     .getBuidler()
+                   //.refBlockNum(85165252)
                     .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new TokenDesc()), new String[0]))
-                    .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                   .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                   .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                   .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                   .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                   .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                   .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                  .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                   .add(new NftIssue("travian", "GOLOS.BACKERS", "lex", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                   .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                   .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new Medal()), new String[0]))
-                    .buildAndSign(new String[]{ACTIVE_WIF});
-            netApi.broadcastTransaction(tr1).block().orElseThrow();
+                    .buildAndSignAsync(new String[]{ACTIVE_WIF})
+                   .doOnNext(tr1 -> log.info("tr1 {}", tr1))
+                            .flatMap(tr1 -> netApi.broadcastTransaction(tr1))
+                   .block().orElseThrow();
 
-
+        /*
             List<NftToken> tokens = nftApi.getNftToken(NftTokenQuery.builder().owner("lex").limit(100).build()).block().orElseThrow();
             log.info("tokens size {}", tokens.size());
             tokens.forEach(t -> log.info("token {}", t));
         {
-            tr = transactionFactory
+            final var tr = transactionFactory
                     .getBuidler()
                     .add(new NftCollectionDelete("lex", "GOLOS.BACKER", new String[0]))
                     .buildAndSign(new String[] {ACTIVE_WIF});
             netApi.broadcastTransaction(tr).block().orElseThrow();
         }
-
+        */
     }
 
     @Test

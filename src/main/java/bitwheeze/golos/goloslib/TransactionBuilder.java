@@ -1,14 +1,19 @@
 package bitwheeze.golos.goloslib;
 
+import bitwheeze.golos.goloslib.model.ApiResponse;
 import bitwheeze.golos.goloslib.model.Asset;
+import bitwheeze.golos.goloslib.model.Block;
 import bitwheeze.golos.goloslib.model.Transaction;
 import bitwheeze.golos.goloslib.model.op.*;
+import bitwheeze.golos.goloslib.types.BlockDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
@@ -18,10 +23,12 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @Scope("prototype")
 @RequiredArgsConstructor
+@Slf4j
 public class TransactionBuilder {
     
 
@@ -71,18 +78,60 @@ public class TransactionBuilder {
      * @return
      */
     public TransactionBuilder setReferenceBlock(long refBlockNum) {
-        this.refBlockNum = refBlockNum & 0xffff;
         var refBlock = api.getBlock(refBlockNum + 1).block().orElseThrow();
+        return setReferenceBlock(refBlockNum, refBlock);
+    }
+
+    public TransactionBuilder setReferenceBlock(long refBlockNum, Block refBlock) {
+        this.refBlockNum = refBlockNum & 0xffff;
         var bytes = Hex.decode(refBlock.getPrevious());
+        log.info("Previous block ( sync): {}, {}", refBlockNum, refBlock.getPrevious());
         this.refBlockPrefix = ByteBuffer.wrap(bytes, 4 ,4).order(ByteOrder.LITTLE_ENDIAN).getInt();
         return this;
+    }
+
+    public Transaction setReferenceBlock(long refBlockNum, Block refBlock, Transaction tr) {
+        final var maskedRefBlockNum = refBlockNum & 0xffff;
+        var bytes = Hex.decode(refBlock.getPrevious());
+        log.info("Previous block (async): {}, {}", refBlockNum, refBlock.getPrevious());
+        final long refBlockPrefix = ByteBuffer.wrap(bytes, 4 ,4).order(ByteOrder.LITTLE_ENDIAN).getInt();
+        tr.setRefBlockNum(maskedRefBlockNum);
+        tr.setRefBlockPrefix(refBlockPrefix);
+        return tr;
     }
 
     public Transaction buildAndSign(String [] keys) {
         var tr = build();
         String serialized = api.getTransactionHex(tr).block().orElseThrow();
-        securityUtils.signTransaction(tr, serialized, keys);
-        return tr;
+        return securityUtils.signTransaction(tr, serialized, keys);
+    }
+
+    public Mono<Transaction> buildAndSignAsync(String [] keys) {
+        var monoBlockNum = Mono.just(refBlockNum);
+
+        if(refBlockNum == 0) {
+            monoBlockNum = api.getDynamicGlobalProperties()
+                .mapNotNull(ApiResponse::orElseThrow)
+                .map(props -> props.getHeadBlockNumber() -3L);
+        }
+
+        return monoBlockNum
+                .flatMap(blockNum ->
+                        api.getBlock(blockNum + 1).map(ApiResponse::orElseThrow).map(block -> new BlockDetails(blockNum, block))
+                )
+                .doOnNext(block -> log.info("Reference block (async): {}, {}", block.blockNum(), block.block().getPrevious()))
+                .map(block -> {
+                    Transaction tr = new Transaction();
+                    packOperations(tr);
+                    setReferenceBlock(block.blockNum(), block.block(), tr);
+                    setExpiration(tr);
+                    return tr;
+                })
+                .flatMap(tr ->
+                    api.getTransactionHex(tr).map(ApiResponse::orElseThrow).map(serialized ->
+                        securityUtils.signTransaction(tr, serialized, keys)
+                    )
+                );
     }
     
     private void packOperations(Transaction tr) {
@@ -108,6 +157,14 @@ public class TransactionBuilder {
 
         tr.setRefBlockNum(this.refBlockNum);
         tr.setRefBlockPrefix(this.refBlockPrefix);
+        if(expiration == null) {
+            expiration = LocalDateTime.now(ZoneOffset.UTC).plusSeconds(expiration_delay);
+        }
+        tr.setExpiration(expiration.withNano(0));
+        return tr;
+    }
+
+    public Transaction setExpiration(Transaction tr) {
         if(expiration == null) {
             expiration = LocalDateTime.now(ZoneOffset.UTC).plusSeconds(expiration_delay);
         }

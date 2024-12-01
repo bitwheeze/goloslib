@@ -54,15 +54,20 @@ public class SecurityUtils {
         return Base58.encode(Bytes.concat(hash,checksum));
     }
 
-
-    public void signTransaction(Transaction tr, String serializedTransaction, String[] keys) {
-        String hexMessage = serializedTransaction;//Hex.toHexString(messagesBytes);
+    /**
+     * Sign transaction.
+     * @param tr
+     * @param serializedTransaction
+     * @param keys
+     * @return Signed transaction
+     */
+    public Transaction signTransaction(Transaction tr, String serializedTransaction, String[] keys) {
         byte[] message;
 
         // This is the hashed message which is signed.
         byte[] hashedMessage;
 
-        message = Hex.decode(chainId + hexMessage);
+        message = Hex.decode(chainId + serializedTransaction);
         hashedMessage = Sha256Hash.hash(message);
 
         List<String> signatures = new ArrayList<>();
@@ -115,6 +120,7 @@ public class SecurityUtils {
         }
 
         tr.setSignatures(signatures.toArray(new String[signatures.size()]));
+        return tr;
     }
 
     public byte[] getSerializedTransaction(Transaction tr) {
