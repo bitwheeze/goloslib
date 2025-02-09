@@ -23,4 +23,11 @@ public class MarketHistoryApi extends GolosApiReactive {
         method.getMethodParams()[1] = new String [] {base, quote};
         return send(method, ApiResponse.OpenOrdersResponse.class);
     }
+
+    public Mono<ApiResponse.OrderBookResponse> getOrderBook(String base, String quote, int limit) {
+        var method = MarketHistoryMethods.getOrderBook();
+        method.getMethodParams()[0] = limit;
+        method.getMethodParams()[1] = new String [] {base, quote};
+        return send(method, ApiResponse.OrderBookResponse.class);
+    }
 }

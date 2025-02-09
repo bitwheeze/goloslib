@@ -6,6 +6,7 @@ import lombok.Getter;
 public class MarketHistoryMethods extends ApiMethod {
 
     public static MarketHistoryMethods getOpenOrders() {return new MarketHistoryMethods( "get_open_orders", new String [] {"owner", "pair"});};
+    public static MarketHistoryMethods getOrderBook() {return new MarketHistoryMethods( "get_order_book", new String [] {"limit", "pair"});};
 
 
     public MarketHistoryMethods(String method, String [] paramNames) {

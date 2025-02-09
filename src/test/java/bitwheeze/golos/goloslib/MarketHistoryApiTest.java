@@ -49,12 +49,18 @@ class MarketHistoryApiTest {
     }
 
     @Test
-    public void vote() {
-        final var builder = transactionFactory.getBuidler();
-        builder.addVote("lex", "lllll1ll", "dnevnik-3-marta", 10000);
-        var tr = builder.buildAndSign(new String [] {"5K67PNheLkmxkgJ5UjvR8Nyt3GVPoLEN1dMZjFuNETzrNyMecPG"});
-        netApi.broadcastTransaction(tr).block().orElseThrow();
+    public void getOrderBook() {
+        var resp = api.getOrderBook("GOLOS", "GBG", 4).block();
+        {
+            log.info("got order book! error = {}", resp.getError());
+            if(!resp.isError() && resp.getResult().isPresent()) {
+                log.info("OrderBook: {}", resp.getResult().get().toString());
+            }
+
+        };
     }
+
+
 
     @Test
     public void closeAllOpenOrders() {

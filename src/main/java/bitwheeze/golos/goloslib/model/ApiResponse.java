@@ -3,9 +3,7 @@ package bitwheeze.golos.goloslib.model;
 import bitwheeze.golos.goloslib.AssetDefinition;
 import bitwheeze.golos.goloslib.model.exception.BlockchainError;
 import bitwheeze.golos.goloslib.model.exception.NodeError;
-import bitwheeze.golos.goloslib.model.op.Operation;
 import bitwheeze.golos.goloslib.model.op.virtual.Event;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -80,6 +78,7 @@ public class ApiResponse<T> {
 
     //TODO: move to corresponding api blocks
     public static class OpenOrdersResponse extends ApiResponse<List<OpenOrder>> {}
+    public static class OrderBookResponse extends ApiResponse<OrderBook> {}
     public static class MedianHistoryPriceResponse extends ApiResponse<Price> {};
 
     public static class GetEventsInBlockResponse extends ApiResponse<List<Event>> {};
