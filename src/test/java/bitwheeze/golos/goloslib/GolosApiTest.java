@@ -1,7 +1,9 @@
 package bitwheeze.golos.goloslib;
 
+import bitwheeze.golos.goloslib.model.Asset;
 import bitwheeze.golos.goloslib.model.VestingDelegation;
 import bitwheeze.golos.goloslib.model.exception.BlockchainError;
+import bitwheeze.golos.goloslib.model.exchange.ExchangeQuery;
 import bitwheeze.golos.goloslib.model.nft.NftToken;
 import bitwheeze.golos.goloslib.model.nft.NftTokenQuery;
 import bitwheeze.golos.goloslib.model.op.NftCollection;
@@ -12,6 +14,7 @@ import bitwheeze.golos.goloslib.types.DelegationType;
 import bitwheeze.golos.goloslib.utilities.GolosTools;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -45,15 +48,39 @@ class GolosApiTest {
     @Autowired private EventApi eventApi;
     @Autowired private NetworkBroadcastApi netApi;
     @Autowired private NftApi nftApi;
+    @Autowired private ExchangeApi exchangeApi;
+    @Autowired private ObjectMapper objectMapper;
 
     private static final String POSTING_WIF = "5HwQScueMZdELZpjVBD4gm6xhiKiMqGx18g4WtQ6wVr4nBdSxY5";
     private static final String ACTIVE_WIF = "5K67PNheLkmxkgJ5UjvR8Nyt3GVPoLEN1dMZjFuNETzrNyMecPG";
-    /*
+
+
 
     @Test
     void getDynamicGlobalProperties() {
         log.info(api.getDynamicGlobalProperties().block().orElseThrow().toString());
     }
+
+    @Test
+    void getExchange() throws JsonProcessingException {
+
+        //create object mapper with pretty formatting while json serialization
+        //ObjectMapper objectMapper = new ObjectMapper();
+        //objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+
+        var query = ExchangeQuery.builder()
+                .amount(new Asset(new BigDecimal("10.000"), "GBG"))
+                .symbol( "GOLOS")
+                .build();
+        log.info("query {}", objectMapper.writeValueAsString(query));
+        var exchange = exchangeApi.getExchange(query).block().orElseThrow();
+        log.info("exchange {}", objectMapper.writeValueAsString(exchange));
+        assertNotNull(exchange);
+    }
+    /*
+
+
 
     @Test
     void getBlock() {

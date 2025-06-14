@@ -90,8 +90,10 @@ class MarketHistoryApiTest {
         netApi.broadcastTransaction(tr).block().orElseThrow();
 
     }
-
+/*
     @SpringBootApplication
     static class TestConfiguration {
     }
+    
+ */
 }

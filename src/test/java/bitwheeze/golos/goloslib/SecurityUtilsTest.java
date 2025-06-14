@@ -59,8 +59,10 @@ class SecurityUtilsTest {
 
         log.info("signatures {}", tr.getSignatures());
     }
-
+    /*
     @SpringBootApplication
     static class TestConfiguration {
     }
+
+     */
 }

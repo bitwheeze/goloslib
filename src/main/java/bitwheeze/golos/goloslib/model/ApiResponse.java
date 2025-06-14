@@ -3,6 +3,7 @@ package bitwheeze.golos.goloslib.model;
 import bitwheeze.golos.goloslib.AssetDefinition;
 import bitwheeze.golos.goloslib.model.exception.BlockchainError;
 import bitwheeze.golos.goloslib.model.exception.NodeError;
+import bitwheeze.golos.goloslib.model.exchange.ExchangeResult;
 import bitwheeze.golos.goloslib.model.op.virtual.Event;
 import lombok.Getter;
 import lombok.Setter;
@@ -84,4 +85,6 @@ public class ApiResponse<T> {
     public static class GetEventsInBlockResponse extends ApiResponse<List<Event>> {};
 
     public static class VestingDelegationResponse extends ApiResponse<List<VestingDelegation>> {};
+
+    public static class GetExchangeResponse extends ApiResponse<ExchangeResult> {};
 }
