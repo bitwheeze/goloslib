@@ -1,9 +1,9 @@
 package bitwheeze.golos.goloslib.model;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.deser.std.StdDeserializer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -17,11 +17,11 @@ public class ToStringArrayDeserializer extends StdDeserializer<String[]> {
     }
 
     public ToStringArrayDeserializer(Class<WorkerRequest> t) {
-        super(t);
+        super(Object.class);
     }
 
     @Override
-    public String[] deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public String[] deserialize(JsonParser p, DeserializationContext ctxt) {
         final var tree = p.readValueAsTree();
         if(tree.isArray()) {
             final var elCount = tree.size();

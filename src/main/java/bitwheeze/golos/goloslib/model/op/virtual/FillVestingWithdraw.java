@@ -1,7 +1,7 @@
 package bitwheeze.golos.goloslib.model.op.virtual;
 
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 import bitwheeze.golos.goloslib.model.Asset;
 import bitwheeze.golos.goloslib.model.op.OpName;
@@ -11,7 +11,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-@JsonDeserialize(using = JsonDeserializer.None.class)
+@JsonDeserialize(using = ValueDeserializer.None.class)
 @OpName("fill_vesting_withdraw")
 public class FillVestingWithdraw extends Operation {
     private String fromAccount;

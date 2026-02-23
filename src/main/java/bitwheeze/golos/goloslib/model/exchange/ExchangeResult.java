@@ -1,6 +1,6 @@
 package bitwheeze.golos.goloslib.model.exchange;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.ToString;
 

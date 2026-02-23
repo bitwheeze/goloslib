@@ -2,11 +2,11 @@ package bitwheeze.golos.goloslib.model;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
 public class WorkerRequestDeserializer  extends StdDeserializer<WorkerRequest> {
     public WorkerRequestDeserializer() {
@@ -19,7 +19,7 @@ public class WorkerRequestDeserializer  extends StdDeserializer<WorkerRequest> {
 
     @Override
     public WorkerRequest deserialize(JsonParser p, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+            {
         WorkerRequest ret = new WorkerRequest();
         JsonNode node = p.readValueAsTree();
         if(!node.isArray()) {

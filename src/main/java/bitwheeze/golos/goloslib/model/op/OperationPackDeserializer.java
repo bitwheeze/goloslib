@@ -7,11 +7,12 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
+
+import tools.jackson.databind.deser.std.StdDeserializer;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -28,12 +29,12 @@ public class OperationPackDeserializer extends StdDeserializer<OperationPack> {
     }
   
     public OperationPackDeserializer(Class<OperationPack> t) {
-        super(t);
+        super(OperationPack.class);
     }
 
     @Override
     public OperationPack deserialize(JsonParser p, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+            {
         log.debug("parse Operation");
         
         JsonNode node = p.readValueAsTree();
@@ -57,7 +58,7 @@ public class OperationPackDeserializer extends StdDeserializer<OperationPack> {
         
         Optional<Class<?>> beanClass = getOpClass(opName);
         if(beanClass.isPresent()) {
-            return (Operation) p.getCodec().treeToValue(opBodyRaw, beanClass.get());
+            return (Operation) ctxt.readTreeAsValue(opBodyRaw, beanClass.get());
         } else {
             RawOperation op = new RawOperation();
             op.setOpName(opName);

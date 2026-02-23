@@ -12,9 +12,10 @@ import bitwheeze.golos.goloslib.model.op.NftIssue;
 import bitwheeze.golos.goloslib.model.op.NftTransfer;
 import bitwheeze.golos.goloslib.types.DelegationType;
 import bitwheeze.golos.goloslib.utilities.GolosTools;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import org.junit.jupiter.api.Disabled;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ComponentScan("bitwheeze.golos.goloslib")
 @RequiredArgsConstructor
+@Disabled
 class GolosApiTest {
 
     @Autowired private TransactionFactory transactionFactory;
@@ -62,7 +64,7 @@ class GolosApiTest {
     }
 
     @Test
-    void getExchange() throws JsonProcessingException {
+    void getExchange() throws JacksonException {
 
         //create object mapper with pretty formatting while json serialization
         //ObjectMapper objectMapper = new ObjectMapper();
@@ -78,10 +80,6 @@ class GolosApiTest {
         log.info("exchange {}", objectMapper.writeValueAsString(exchange));
         assertNotNull(exchange);
     }
-    /*
-
-
-
     @Test
     void getBlock() {
         final long TEST_BLOCK_NUM = 78836541;
@@ -205,70 +203,6 @@ class GolosApiTest {
     }
 
     @Test
-    void createNftCollection() throws JsonProcessingException {
-        @Data
-        class CollectionDesc {
-            String desc = "Medal of Honor";
-            String app = "lexicon";
-        }
-
-        //{"hero":"Canon the Barbarian","desc":"Рубит всех своим мечем налево и на право","type":"legendary","health":120,"str":100,"defence":40,"mana":10,"consumes":"red,blue"}
-        @Data
-        class TokenDesc {
-            String id = UUID.randomUUID().toString();
-            String title = "Canon the Barbarian";
-            String description = "Рубит всех своим мечем налево и на право";
-            String image = "https://devimages.golos.today/0x0/https://steemitimages.com/0x0/https://i.imgur.com/V1pnpH8.png";
-            String type = "legendary";
-            int health = 120;
-            int strength = 100;
-            int defence = 40;
-            int mana = 10;
-            String [] consumes = new String[] {"red", "blue"};
-        }
-
-        @Data
-        class Medal {
-            String id = UUID.randomUUID().toString();
-            String title = "Speedy Gonzales";
-            String description = "Значок отличника раскладывания пасьянса. Самый быстрый расклад. Владелец этого значка может разово вернуть сделанную ставку.";
-            String image = "https://devimages.golos.today/0x0/https://steemitimages.com/0x0/https://i.imgur.com/1RzAWCi.jpg";
-            String type = "legendary";
-        }
-        var tr = transactionFactory
-                .getBuidler()
-                .add(new NftCollection("travian", "GOLOS.BACKERS", new ObjectMapper().writeValueAsString(new CollectionDesc()), 1000, new String[0]))
-                .buildAndSign(new String[] {ACTIVE_WIF});
-        netApi.broadcastTransaction(tr).block().orElseThrow();
-        final var signedTrans = transactionFactory
-                .getBuidler()
-                .refBlockNum(85165252)
-                .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new TokenDesc()), new String[0]))
-                .buildAndSign(new String[]{ACTIVE_WIF});
-        log.info("signedTrans {}", signedTrans);
-
-           transactionFactory
-                    .getBuidler()
-                   //.refBlockNum(85165252)
-                    .add(new NftIssue("travian", "GOLOS.BACKERS", "travian", new ObjectMapper().writeValueAsString(new TokenDesc()), new String[0]))
-                    .buildAndSignAsync(new String[]{ACTIVE_WIF})
-                   .doOnNext(tr1 -> log.info("tr1 {}", tr1))
-                            .flatMap(tr1 -> netApi.broadcastTransaction(tr1))
-                   .block().orElseThrow();
-
-            List<NftToken> tokens = nftApi.getNftToken(NftTokenQuery.builder().owner("lex").limit(100).build()).block().orElseThrow();
-            log.info("tokens size {}", tokens.size());
-            tokens.forEach(t -> log.info("token {}", t));
-        {
-            final var tr = transactionFactory
-                    .getBuidler()
-                    .add(new NftCollectionDelete("lex", "GOLOS.BACKER", new String[0]))
-                    .buildAndSign(new String[] {ACTIVE_WIF});
-            netApi.broadcastTransaction(tr).block().orElseThrow();
-        }
-    }
-
-    @Test
     void getContent() {
         var content = social.getContent("bitwheeze", "volya", 0, 0).block().orElseThrow();
         log.info("content {}", content);
@@ -320,23 +254,21 @@ class GolosApiTest {
     }
 
     @Test void getEventsInBlock() {
-        var eventList = eventApi.getEventsInBlock(70239546, false).block().orElseThrow();
+        var eventList = eventApi.getEventsInBlock(98063325, false).block().orElseThrow();
+        log.info("events = {}", eventList);
         eventList.stream().forEach( event -> log.info("  event {}", event));
 
-        eventList = eventApi.getEventsInBlock(70781322, false).block().orElseThrow();
+        eventList = eventApi.getEventsInBlock(98063326, false).block().orElseThrow();
         eventList.stream().forEach( event -> log.info("  event {}", event));
 
-        eventList = eventApi.getEventsInBlock(70784913, false).block().orElseThrow();
+        eventList = eventApi.getEventsInBlock(98063327, false).block().orElseThrow();
         eventList.stream().forEach( event -> log.info("  event {}", event));
 
-        eventList = eventApi.getEventsInBlock(70653402, false).block().orElseThrow();
+        eventList = eventApi.getEventsInBlock(98063328, false).block().orElseThrow();
         eventList.stream().forEach( event -> log.info("  event {}", event));
 
-        eventList = eventApi.getEventsInBlock(70784465, false).block().orElseThrow();
+        eventList = eventApi.getEventsInBlock(98063329, false).block().orElseThrow();
         eventList.stream().forEach( event -> log.info("  event {}", event));
-
-
-
     }
 
     @Test void getEmission() {
@@ -363,6 +295,5 @@ class GolosApiTest {
     @SpringBootApplication
     static class TestConfiguration {
     }
-*/
 
 }

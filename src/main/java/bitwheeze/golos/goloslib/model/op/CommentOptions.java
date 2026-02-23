@@ -1,8 +1,8 @@
 package bitwheeze.golos.goloslib.model.op;
 
 import bitwheeze.golos.goloslib.model.ToStringArrayDeserializer;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 import bitwheeze.golos.goloslib.model.Asset;
 import bitwheeze.golos.goloslib.model.ToStringDeserializer;
@@ -11,7 +11,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-@JsonDeserialize(using = JsonDeserializer.None.class)
+@JsonDeserialize(using = ValueDeserializer.None.class)
 @OpName("comment_options")
 public class CommentOptions extends Operation {
     private String author;

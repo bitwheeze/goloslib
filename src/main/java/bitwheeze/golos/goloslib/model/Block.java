@@ -2,7 +2,7 @@ package bitwheeze.golos.goloslib.model;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Data;
 import lombok.ToString;

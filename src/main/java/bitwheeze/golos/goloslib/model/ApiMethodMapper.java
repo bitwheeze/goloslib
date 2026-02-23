@@ -3,9 +3,9 @@ package bitwheeze.golos.goloslib.model;
 import java.io.IOException;
 
 import bitwheeze.golos.goloslib.model.api.ApiMethod;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ser.std.StdSerializer;
 
 public class ApiMethodMapper  extends StdSerializer<ApiMethod> {
     public ApiMethodMapper() {
@@ -17,7 +17,7 @@ public class ApiMethodMapper  extends StdSerializer<ApiMethod> {
     }
 
     @Override
-    public void serialize(ApiMethod value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(ApiMethod value, JsonGenerator gen, SerializationContext provider) {
         gen.writeStartArray();
         gen.writeString("");
         

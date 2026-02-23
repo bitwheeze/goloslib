@@ -2,8 +2,8 @@ package bitwheeze.golos.goloslib.model.op;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 import bitwheeze.golos.goloslib.model.Asset;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.ToString;
 
 @Data
 @ToString
-@JsonDeserialize(using = JsonDeserializer.None.class)
+@JsonDeserialize(using = ValueDeserializer.None.class)
 @OpName("limit_order_create")
 @AllArgsConstructor
 @Builder
