@@ -10,7 +10,7 @@ import tools.jackson.databind.deser.std.StdDeserializer;
 
 public class WorkerRequestDeserializer  extends StdDeserializer<WorkerRequest> {
     public WorkerRequestDeserializer() {
-        this(null);
+        this(WorkerRequest.class);
     }
   
     public WorkerRequestDeserializer(Class<WorkerRequest> t) {

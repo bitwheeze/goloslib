@@ -18,7 +18,7 @@ public class KeyAuthorityDeserializer extends StdDeserializer<KeyAuthority> {
     private static final long serialVersionUID = 1L;
 
     public KeyAuthorityDeserializer() {
-        this(null);
+        this(KeyAuthority.class);
     }
   
     public KeyAuthorityDeserializer(Class<KeyAuthority> t) {

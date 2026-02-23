@@ -9,7 +9,7 @@ import tools.jackson.databind.ser.std.StdSerializer;
 
 public class ApiMethodMapper  extends StdSerializer<ApiMethod> {
     public ApiMethodMapper() {
-        this(null);
+        this(ApiMethod.class);
     }
   
     public ApiMethodMapper(Class<ApiMethod> t) {

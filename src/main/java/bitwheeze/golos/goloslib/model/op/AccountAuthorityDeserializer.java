@@ -18,7 +18,7 @@ public class AccountAuthorityDeserializer extends StdDeserializer<AccountAuthori
     private static final long serialVersionUID = 1L;
 
     public AccountAuthorityDeserializer() {
-        this(null);
+        this(AccountAuthority.class);
     }
   
     public AccountAuthorityDeserializer(Class<AccountAuthority> t) {

@@ -14,7 +14,7 @@ public class OperationPackSerializer extends StdSerializer<OperationPack>{
     private static final long serialVersionUID = 1L;
 
     public OperationPackSerializer() {
-        this(null);
+        this(OperationPack.class);
     }
     
     protected OperationPackSerializer(Class<OperationPack> t) {

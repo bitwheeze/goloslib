@@ -19,7 +19,7 @@ public class AccountCreateWithDelegationExtensionDeserializer extends StdDeseria
     private static final long serialVersionUID = 1L;
 
     public AccountCreateWithDelegationExtensionDeserializer() {
-        this(null);
+        this(AccountCreateWithDelegationExtension.class);
     }
   
     public AccountCreateWithDelegationExtensionDeserializer(Class<AccountCreateWithDelegationExtension> t) {
